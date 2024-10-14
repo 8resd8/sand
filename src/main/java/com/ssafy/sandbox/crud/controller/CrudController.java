@@ -58,7 +58,7 @@ public class CrudController {
     }
 
     @DeleteMapping("/{todoId}")
-    public ResponseEntity<Map<String, String>> DeleteTodo(@PathVariable long todoId) {
+    public ResponseEntity<Map<String, String>> DeleteTodo(@PathVariable Long todoId) {
         log.info("DeleteTodo: {}", todoId);
         crudRepository.deleteTodo(todoId);
 

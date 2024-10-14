@@ -6,7 +6,10 @@ import lombok.ToString;
 @Getter
 @ToString
 public class RequestTodo { // 입력받는 todo
-    private final String content;
+    private String content;
+
+    public RequestTodo() {
+    }
 
     public RequestTodo(String content) {
         this.content = content;
