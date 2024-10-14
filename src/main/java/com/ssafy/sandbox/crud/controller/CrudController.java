@@ -1,41 +1,70 @@
 package com.ssafy.sandbox.crud.controller;
 
-import com.ssafy.sandbox.crud.response.TodosResponse;
-import jakarta.annotation.PostConstruct;
+import com.ssafy.sandbox.crud.dto.ResponseTodo;
+import com.ssafy.sandbox.crud.dto.RequestTodo;
+import com.ssafy.sandbox.crud.repository.CrudRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @Slf4j
 @RequiredArgsConstructor
+@RequestMapping({"/", "/todos"})
 public class CrudController {
 
-    private final TodosResponse todosResponse;
+    private final CrudRepository crudRepository;
 
 
-    @GetMapping("/todos")
-    public TodosResponse readTodo() {
+    @GetMapping
+    public ResponseEntity<Map<String, Object>> readTodo() {
+        log.info("readTodo: {}", crudRepository);
 
+        List<ResponseTodo> todos = crudRepository.selectAllTodo();
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("message", "정상적으로 요청되었습니다.");
+        response.put("todos", todos);
 
-        return todosResponse;
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/todos")
-    public TodosResponse createTodo() {
+    @PostMapping
+    public ResponseEntity<Map<String, String>> createTodo(@Validated @RequestBody RequestTodo todos, BindingResult bindingResult) {
+        log.info("createTodo: {}", todos);
 
-        return todosResponse;
+        Map<String, String> response = new HashMap<>();
+        response.put("message", todos.getContent());
+        crudRepository.saveTodo(todos);
+
+        return ResponseEntity.of(Optional.of(response));
     }
 
-    @PatchMapping("/todos")
-    public TodosResponse UpdateTodo() {
+    @PatchMapping("/{todoId}")
+    public ResponseEntity<Map<String, String>> UpdateTodo(@PathVariable Long todoId) {
+        log.info("UpdateTodo: {}", todoId);
+        crudRepository.updateToggle(todoId);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", todoId + "의 completed가 정상적으로 토글되었습니다");
 
-        return todosResponse;
+        return ResponseEntity.ok(new HashMap<>(response));
     }
 
-    @DeleteMapping("/todos")
-    public TodosResponse DeleteTodo() {
+    @DeleteMapping("/{todoId}")
+    public ResponseEntity<Map<String, String>> DeleteTodo(@PathVariable long todoId) {
+        log.info("DeleteTodo: {}", todoId);
+        crudRepository.deleteTodo(todoId);
 
-        return todosResponse;
+        Map<String, String> response = new HashMap<>();
+        response.put("message", todoId + "의 todo가 삭제되었습니다");
+
+        return ResponseEntity.ok(new HashMap<>(response));
     }
 }

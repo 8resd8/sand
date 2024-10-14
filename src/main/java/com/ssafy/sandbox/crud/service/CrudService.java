@@ -1,14 +1,15 @@
 package com.ssafy.sandbox.crud.service;
 
-import com.ssafy.sandbox.crud.response.TodosResponse;
+import com.ssafy.sandbox.crud.dto.ResponseTodo;
+
 
 public interface CrudService {
 
-    TodosResponse readTodo();
+    ResponseTodo readTodo();
 
-    TodosResponse createTodo();
+    ResponseTodo createTodo();
 
-    TodosResponse UpdateTodo();
+    ResponseTodo UpdateTodo();
 
-    TodosResponse DeleteTodo();
+    ResponseTodo DeleteTodo();
 }

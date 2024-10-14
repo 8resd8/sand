@@ -1,25 +1,31 @@
 package com.ssafy.sandbox.crud.service;
 
-import com.ssafy.sandbox.crud.response.TodosResponse;
+import com.ssafy.sandbox.crud.dto.ResponseTodo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CrudServiceImpl implements CrudService{
+
+
+
     @Override
-    public TodosResponse readTodo() {
+    public ResponseTodo readTodo() {
         return null;
     }
 
     @Override
-    public TodosResponse createTodo() {
+    public ResponseTodo createTodo() {
         return null;
     }
 
     @Override
-    public TodosResponse UpdateTodo() {
+    public ResponseTodo UpdateTodo() {
         return null;
     }
 
     @Override
-    public TodosResponse DeleteTodo() {
+    public ResponseTodo DeleteTodo() {
         return null;
     }
 }
