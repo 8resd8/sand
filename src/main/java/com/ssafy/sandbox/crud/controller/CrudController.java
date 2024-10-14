@@ -3,6 +3,7 @@ package com.ssafy.sandbox.crud.controller;
 import com.ssafy.sandbox.crud.dto.ResponseTodo;
 import com.ssafy.sandbox.crud.dto.RequestTodo;
 import com.ssafy.sandbox.crud.repository.CrudRepository;
+import com.ssafy.sandbox.crud.repository.MemoryCrudRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +21,16 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping({"/", "/todos"})
 public class CrudController {
+;
 
     private final CrudRepository crudRepository;
-
 
     @GetMapping
     public ResponseEntity<Map<String, Object>> readTodo() {
         log.info("readTodo: {}", crudRepository);
 
-        List<ResponseTodo> todos = crudRepository.selectAllTodo();
+        List<ResponseTodo> todos = crudRepository.findAll();
+        log.info("todos: {}", todos);
         HashMap<String, Object> response = new HashMap<>();
         response.put("message", "정상적으로 요청되었습니다.");
         response.put("todos", todos);
@@ -58,7 +60,7 @@ public class CrudController {
     }
 
     @DeleteMapping("/{todoId}")
-    public ResponseEntity<Map<String, String>> DeleteTodo(@PathVariable Long todoId) {
+    public ResponseEntity<Map<String, String>> DeleteTodo(@PathVariable("todoId") Long todoId) {
         log.info("DeleteTodo: {}", todoId);
         crudRepository.deleteTodo(todoId);
 

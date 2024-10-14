@@ -1,46 +1,20 @@
 package com.ssafy.sandbox.crud.repository;
 
-import com.ssafy.sandbox.crud.dto.ResponseTodo;
 import com.ssafy.sandbox.crud.dto.RequestTodo;
+import com.ssafy.sandbox.crud.dto.ResponseTodo;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Component
-public class CrudRepository {
+public interface CrudRepository {
 
-    private static final List<ResponseTodo> todos = new ArrayList<>();
-    private static long id;
+    void saveTodo(RequestTodo requestTodo);
 
-    public CrudRepository() {
-    }
+    int updateToggle(Long id);
 
-    public void saveTodo(RequestTodo requestTodo) {
-        todos.add(new ResponseTodo(++id, requestTodo.getContent(), true));
-    }
+    ResponseTodo findById(Long id);
 
-    public void updateToggle(Long id) {
-        ResponseTodo findTodo = findById(id);
-        if (findTodo != null) {
-            int index = todos.indexOf(findTodo);
-            todos.set(index, new ResponseTodo(id, findTodo.getContent(), !findTodo.isCompleted()));
-        }
-    }
+    List<ResponseTodo> findAll();
 
-    public ResponseTodo findById(Long id) {
-        return todos.stream().
-                filter(todo -> todo.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-    }
-
-    public List<ResponseTodo> selectAllTodo() {
-        return new ArrayList<>(todos);
-    }
-
-    public void deleteTodo(Long id) {
-        ResponseTodo find = findById(id);
-        if (find != null) todos.remove(find);
-    }
+    int deleteTodo(Long id);
 }
