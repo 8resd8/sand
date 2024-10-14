@@ -3,11 +3,12 @@ package com.ssafy.sandbox.crud.repository;
 import com.ssafy.sandbox.crud.dto.ResponseTodo;
 import com.ssafy.sandbox.crud.dto.RequestTodo;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Repository
 public class MemoryCrudRepository implements CrudRepository {
 
     private static final List<ResponseTodo> todos = new ArrayList<>();
@@ -22,12 +23,11 @@ public class MemoryCrudRepository implements CrudRepository {
 
     public int updateToggle(Long id) {
         ResponseTodo findTodo = findById(id);
-        if (findTodo != null) {
-            int index = todos.indexOf(findTodo);
-            todos.set(index, new ResponseTodo(id, findTodo.getContent(), !findTodo.isCompleted()));
-            return 1;
-        }
-        return 0;
+        if (findTodo == null) return 0;
+
+        int index = todos.indexOf(findTodo);
+        todos.set(index, new ResponseTodo(id, findTodo.getContent(), !findTodo.isCompleted()));
+        return index;
     }
 
     public ResponseTodo findById(Long id) {
@@ -43,10 +43,9 @@ public class MemoryCrudRepository implements CrudRepository {
 
     public int deleteTodo(Long id) {
         ResponseTodo find = findById(id);
-        if (find != null) {
-            todos.remove(find);
-            return 1;
-        }
+        if (find == null) return 0;
+
+        todos.remove(find);
         return 0;
     }
 }

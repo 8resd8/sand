@@ -13,8 +13,8 @@ import java.util.List;
 
 @Primary
 @Repository
-@RequiredArgsConstructor
 @Slf4j
+@RequiredArgsConstructor
 public class MysqlCrudRepository implements CrudRepository{
 
     private final JdbcTemplate jdbcTemplate;
