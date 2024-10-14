@@ -1,21 +1,14 @@
 package com.ssafy.sandbox.crud.dto;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 @Getter
 @ToString
+@RequiredArgsConstructor
 public class ResponseTodo { // API 응답용
-    private Long id;
-    private String content;
-    private boolean completed;
-
-    public ResponseTodo() {
-    }
-
-    public ResponseTodo(Long id, String content, boolean completed) {
-        this.id = id;
-        this.content = content;
-        this.completed = completed;
-    }
+    private final Long id;
+    private final String content;
+    private final boolean completed;
 }
