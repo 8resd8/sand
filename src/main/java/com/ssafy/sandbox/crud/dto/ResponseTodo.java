@@ -5,7 +5,6 @@ import lombok.ToString;
 
 @Getter
 @ToString
-//@RequiredArgsConstructor
 public class ResponseTodo {
     private Long id;
     private String content;
