@@ -9,10 +9,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class CrudServiceImpl implements CrudService{
 
-    private final CrudRepository crudRepository;
+
+    private CrudRepository crudRepository;
+
+    public CrudServiceImpl(CrudRepository crudRepository) {
+        this.crudRepository = crudRepository;
+    }
 
     @Override
     public void saveTodo(RequestTodo requestTodo) {
