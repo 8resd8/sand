@@ -2,12 +2,14 @@ package com.ssafy.sandbox.crud.repository;
 
 import com.ssafy.sandbox.crud.dto.ResponseTodo;
 import com.ssafy.sandbox.crud.dto.RequestTodo;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
+//@Primary
 @Repository
 public class MemoryCrudRepository implements CrudRepository {
 
