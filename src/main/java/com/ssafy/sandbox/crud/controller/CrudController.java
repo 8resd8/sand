@@ -1,13 +1,11 @@
 package com.ssafy.sandbox.crud.controller;
 
-import com.ssafy.sandbox.crud.dto.ResponseTodo;
 import com.ssafy.sandbox.crud.dto.RequestTodo;
-import com.ssafy.sandbox.crud.repository.CrudRepository;
-import com.ssafy.sandbox.crud.repository.MemoryCrudRepository;
+import com.ssafy.sandbox.crud.dto.ResponseTodo;
+import com.ssafy.sandbox.crud.service.CrudService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,15 +19,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @RequestMapping({"/", "/todos"})
 public class CrudController {
-;
 
-    private final CrudRepository crudRepository;
+    private final CrudService crudService;
 
     @GetMapping
     public ResponseEntity<Map<String, Object>> readTodo() {
-        log.info("readTodo: {}", crudRepository);
+        log.info("readTodo:");
 
-        List<ResponseTodo> todos = crudRepository.findAll();
+        List<ResponseTodo> todos = crudService.findAll();
         log.info("todos: {}", todos);
         HashMap<String, Object> response = new HashMap<>();
         response.put("message", "정상적으로 요청되었습니다.");
@@ -39,20 +36,20 @@ public class CrudController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, String>> createTodo(@Validated @RequestBody RequestTodo todos, BindingResult bindingResult) {
-        log.info("createTodo: {}", todos);
+    public ResponseEntity<Map<String, String>> createTodo(@Validated @RequestBody RequestTodo todos) {
+        log.info("createTodo Message: {}", todos);
 
         Map<String, String> response = new HashMap<>();
         response.put("message", todos.getContent());
-        crudRepository.saveTodo(todos);
+        crudService.saveTodo(todos);
 
         return ResponseEntity.of(Optional.of(response));
     }
 
     @PatchMapping("/{todoId}")
     public ResponseEntity<Map<String, String>> UpdateTodo(@PathVariable Long todoId) {
-        log.info("UpdateTodo: {}", todoId);
-        crudRepository.updateToggle(todoId);
+        log.info("UpdateTodo id: {}", todoId);
+        crudService.updateToggle(todoId);
         Map<String, String> response = new HashMap<>();
         response.put("message", todoId + "의 completed가 정상적으로 토글되었습니다");
 
@@ -60,9 +57,9 @@ public class CrudController {
     }
 
     @DeleteMapping("/{todoId}")
-    public ResponseEntity<Map<String, String>> DeleteTodo(@PathVariable("todoId") Long todoId) {
-        log.info("DeleteTodo: {}", todoId);
-        crudRepository.deleteTodo(todoId);
+    public ResponseEntity<Map<String, String>> DeleteTodo(@PathVariable Long todoId) {
+        log.info("DeleteTodo id: {}", todoId);
+        crudService.deleteTodo(todoId);
 
         Map<String, String> response = new HashMap<>();
         response.put("message", todoId + "의 todo가 삭제되었습니다");
