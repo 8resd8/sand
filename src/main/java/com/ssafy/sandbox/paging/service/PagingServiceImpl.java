@@ -28,9 +28,9 @@ public class PagingServiceImpl implements PagingService {
      * 현재 페이지의 맞게 인덱스 계산, 데이터 크기를 넘지 않도록 조정
      */
     @Override
-    public int endPage(int size, int startPage, int todoSize) {
-        log.info("endPage계산: size: {}, startPage: {}, todoSize: {}", size, startPage, todoSize);
-        return Math.min(startPage + size, todoSize);
+    public int endPage(int size, int page, int todoSize) {
+        log.info("endPage계산: size: {}, startPage: {}, todoSize: {}", size, page, todoSize);
+        return Math.min((page + 1) * size, todoSize);
     }
 
     /**
