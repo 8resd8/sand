@@ -36,6 +36,8 @@ dependencies {
 
 	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.33'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '3.0.3'
+
 
 
 }
