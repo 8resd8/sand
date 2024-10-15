@@ -20,7 +20,7 @@ public class MemoryCrudRepository implements CrudRepository {
     }
 
     public void saveTodo(RequestTodo requestTodo) {
-        todos.add(new ResponseTodo(++sequence, requestTodo.getContent(), true));
+        todos.add(new ResponseTodo(++sequence, requestTodo.getContent(), false));
     }
 
     public int updateToggle(Long id) {
