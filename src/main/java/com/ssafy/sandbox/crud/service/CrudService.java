@@ -17,4 +17,6 @@ public interface CrudService {
     List<ResponseTodo> findAll();
 
     int deleteTodo(Long id);
+
+    List<ResponseTodo> findSubset(Long start, int count);
 }
