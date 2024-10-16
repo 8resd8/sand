@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class PagingController {
-    private final CrudService crudService;
+
     private final PagingService pagingService;
 
     @GetMapping("/offset")
