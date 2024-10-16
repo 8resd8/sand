@@ -1,35 +1,32 @@
 package com.ssafy.sandbox.email.controller;
 
-import com.ssafy.sandbox.email.dto.Email;
-import com.ssafy.sandbox.email.response.FailureResponse;
-import com.ssafy.sandbox.email.response.ResponseEmail;
-import com.ssafy.sandbox.email.response.SuccessResponse;
+import com.ssafy.sandbox.email.dto.RequestEmail;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
 
 @RestController
 @Slf4j
 public class EmailController {
 
-    @PostMapping("/{domain}/email")
-    public ResponseEmail getEmail(@PathVariable String domain, @Validated @RequestBody Email email, BindingResult bindingResult) {
+    @PostMapping("/email")
+    public ResponseEntity<HashMap<String, Object>> getEmail(@Validated @RequestBody RequestEmail requestEmail, BindingResult bindingResult) {
+        log.info("입력 Email: {}", requestEmail);
+        HashMap<String, Object> response = new HashMap<>();
 
-        ResponseEmail responseEmail = new ResponseEmail();
-        log.info("Eamil: {}", email);
         if (bindingResult.hasErrors()) {
-            log.info("error: {}", bindingResult);
-            responseEmail.setMessage("이메일 인증 실패");
-            return responseEmail;
+            log.info("에러발생: {}", bindingResult);
+            response.put("message", "이메일 인증에 실패했습니다.");
+            return ResponseEntity.badRequest().body(response);
         }
+        response.put("isOk", true);
 
-        log.info("성공, {}", domain);
-
-        responseEmail.setOk(true);
-        return responseEmail;
+        return ResponseEntity.ok(response);
     }
 }
