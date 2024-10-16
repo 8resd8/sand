@@ -2,7 +2,6 @@ package com.ssafy.sandbox.crud.repository;
 
 import com.ssafy.sandbox.crud.dto.RequestTodo;
 import com.ssafy.sandbox.crud.dto.ResponseTodo;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -17,4 +16,6 @@ public interface CrudRepository {
     List<ResponseTodo> findAll();
 
     int deleteTodo(Long id);
+
+    List<ResponseTodo> findSubset(Long cursorId, int count);
 }

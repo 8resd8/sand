@@ -6,13 +6,9 @@ import com.ssafy.sandbox.util.ResponseTodoRowMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 @Primary
@@ -57,5 +53,13 @@ public class MysqlCrudRepository implements CrudRepository {
         log.info("Mysql, deleteTodo: {}", id);
         String sql = "delete from todos where id = ?";
         return jdbcTemplate.update(sql, id);
+    }
+
+    @Override
+    public List<ResponseTodo> findSubset(Long cursorId, int count) {
+        String sql = "select * from todos where id > ? limit ?"; // 0부터 시작
+        List<ResponseTodo> query = jdbcTemplate.query(sql, new ResponseTodoRowMapper(), cursorId, count);
+        log.info("mysql, subset: {}", query);
+        return query;
     }
 }

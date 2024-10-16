@@ -50,4 +50,9 @@ public class MemoryCrudRepository implements CrudRepository {
         todos.remove(find);
         return 0;
     }
+
+    @Override
+    public List<ResponseTodo> findSubset(Long start, int count) {
+        return List.of(); // 구현 x
+    }
 }
