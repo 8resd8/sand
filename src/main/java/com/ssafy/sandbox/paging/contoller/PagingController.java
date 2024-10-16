@@ -1,9 +1,8 @@
 package com.ssafy.sandbox.paging.contoller;
 
 import com.ssafy.sandbox.crud.dto.ResponseTodo;
-import com.ssafy.sandbox.paging.dto.RequestOffset;
-import com.ssafy.sandbox.paging.dto.ResponsePaging;
-import com.ssafy.sandbox.paging.service.OffsetService;
+import com.ssafy.sandbox.paging.dto.RequestCursor;
+import com.ssafy.sandbox.paging.dto.ResponseCursor;
 import com.ssafy.sandbox.paging.service.PagingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,19 +21,20 @@ public class PagingController {
 
     private final PagingService offsetService;
 
-
     // cursor: 스크롤 내리면 알아서 다음페이지 요청 들어온다.
-    @GetMapping("/offset")
+    @GetMapping("/cursor")
     @ResponseStatus(HttpStatus.OK)
-    public ResponsePaging offsetPaging(@ModelAttribute RequestOffset requestOffset) {
-        log.info("offsetPaging: {}", requestOffset);
+    public ResponseCursor cursorPaging(@ModelAttribute RequestCursor requestCursor) {
+        log.info("offsetPaging: {}", requestCursor);
 
-        List<ResponseTodo> pageTotos = offsetService.pagedTotos(requestOffset.size(), requestOffset.page());
-        boolean hasNext = offsetService.hasNext(requestOffset.size(), requestOffset.page());
+        List<ResponseTodo> pageTotos = offsetService.pagedTotos(requestCursor.size(), requestCursor.cursorId());
+        Long lastId = offsetService.getNextCursor(pageTotos);
+        log.info("controller lastId: {}", lastId);
+        boolean hasNext = offsetService.hasNext(requestCursor.cursorId(), requestCursor.size());
 
-        ResponsePaging responsePaging = new ResponsePaging("정상적으로 요청되었습니다.", requestOffset.page(), requestOffset.size(), hasNext, pageTotos);
-        log.info("responsePaging: {}", responsePaging);
+        ResponseCursor responseCursor = new ResponseCursor("정상적으로 요청되었습니다.", lastId, requestCursor.size(), hasNext, pageTotos);
+        log.info("responsePaging: {}", responseCursor);
 
-        return responsePaging;
+        return responseCursor;
     }
 }
