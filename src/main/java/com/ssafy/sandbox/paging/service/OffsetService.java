@@ -9,11 +9,11 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class PagingServiceImpl implements PagingService {
+public class OffsetService implements PagingService {
 
     private final CrudService crudService;
 
-    public PagingServiceImpl(CrudService crudService) {
+    public OffsetService(CrudService crudService) {
         this.crudService = crudService;
     }
 
