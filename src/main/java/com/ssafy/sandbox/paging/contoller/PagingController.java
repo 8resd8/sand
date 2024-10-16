@@ -23,6 +23,7 @@ public class PagingController {
     private final PagingService offsetService;
 
 
+    // cursor: 스크롤 내리면 알아서 다음페이지 요청 들어온다.
     @GetMapping("/offset")
     @ResponseStatus(HttpStatus.OK)
     public ResponsePaging offsetPaging(@ModelAttribute RequestOffset requestOffset) {
