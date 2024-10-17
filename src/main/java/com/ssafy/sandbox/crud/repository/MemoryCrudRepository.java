@@ -52,7 +52,12 @@ public class MemoryCrudRepository implements CrudRepository {
     }
 
     @Override
-    public List<ResponseTodo> findSubset(Long start, int count) {
+    public List<ResponseTodo> cursorPaging(Long start, int count) {
         return List.of(); // 구현 x
+    }
+
+    @Override
+    public List<ResponseTodo> offsetPaging(int size, int offset) {
+        return List.of(); // 구현 X
     }
 }
