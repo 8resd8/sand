@@ -18,5 +18,9 @@ public interface CrudService {
 
     int deleteTodo(Long id);
 
-    List<ResponseTodo> findSubset(Long start, int count);
+    List<ResponseTodo> cursorPaging(Long start, int count);
+
+    List<ResponseTodo> offsetPaging(int size, int page);
+
+    int getTotalCount();
 }

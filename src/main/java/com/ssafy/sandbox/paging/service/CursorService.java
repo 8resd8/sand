@@ -9,7 +9,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class CursorService implements PagingService {
+public class CursorService  {
 
     private final CrudService crudService;
 
@@ -23,10 +23,10 @@ public class CursorService implements PagingService {
     public List<ResponseTodo> pagedTotos(int size, Long cursorId) {
         // 첫 요청이면 그대로 size 만큼 돌려주기
         if (cursorId == 0) {
-            return crudService.findSubset(0L, size);
+            return crudService.cursorPaging(0L, size);
         }
 
-        List<ResponseTodo> todos = crudService.findSubset(cursorId, size + 1);
+        List<ResponseTodo> todos = crudService.cursorPaging(cursorId, size + 1);
         if (todos.size() > size) todos.remove(todos.size() - 1);
 
         log.info("cursorId: {}, todosSize: {}", cursorId, todos.size());
@@ -36,12 +36,12 @@ public class CursorService implements PagingService {
     /**
      * 다음 페이지가 있는지 확인
      */
-    @Override
+
     public boolean hasNext(Long cursorId, int size) {
-        return crudService.findSubset(cursorId, size + 1).size() > size;
+        return crudService.cursorPaging(cursorId, size + 1).size() > size;
     }
 
-    @Override
+
     public Long getNextCursor(List<ResponseTodo> todos) {
         if (todos.isEmpty()) return 0L;
 

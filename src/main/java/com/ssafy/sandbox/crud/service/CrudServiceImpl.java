@@ -3,8 +3,6 @@ package com.ssafy.sandbox.crud.service;
 import com.ssafy.sandbox.crud.dto.RequestTodo;
 import com.ssafy.sandbox.crud.dto.ResponseTodo;
 import com.ssafy.sandbox.crud.repository.CrudRepository;
-import com.ssafy.sandbox.util.ResponseTodoRowMapper;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,7 +43,16 @@ public class CrudServiceImpl implements CrudService{
         return crudRepository.deleteTodo(id);
     }
 
-    public List<ResponseTodo> findSubset(Long cursorId, int count) {
-        return crudRepository.findSubset(cursorId, count);
+    public List<ResponseTodo> cursorPaging(Long cursorId, int count) {
+        return crudRepository.cursorPaging(cursorId, count);
+    }
+
+    public List<ResponseTodo> offsetPaging(int size, int page) {
+        return crudRepository.offsetPaging(size, page);
+    }
+
+    @Override
+    public int getTotalCount() {
+        return crudRepository.getTotalCount();
     }
 }

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //@Primary
-@Repository
+//@Repository
 public class MemoryCrudRepository implements CrudRepository {
 
     private static final List<ResponseTodo> todos = new ArrayList<>();
@@ -59,5 +59,10 @@ public class MemoryCrudRepository implements CrudRepository {
     @Override
     public List<ResponseTodo> offsetPaging(int size, int offset) {
         return List.of(); // 구현 X
+    }
+
+    @Override
+    public int getTotalCount() {
+        return 0;
     }
 }

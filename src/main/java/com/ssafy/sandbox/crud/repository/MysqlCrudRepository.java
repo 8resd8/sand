@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Primary
+
 @Repository
 @Slf4j
 @RequiredArgsConstructor
@@ -56,10 +56,28 @@ public class MysqlCrudRepository implements CrudRepository {
     }
 
     @Override
-    public List<ResponseTodo> findSubset(Long cursorId, int count) {
+    public List<ResponseTodo> cursorPaging(Long cursorId, int count) {
         String sql = "select * from todos where id > ? limit ?"; // 0부터 시작
         List<ResponseTodo> query = jdbcTemplate.query(sql, new ResponseTodoRowMapper(), cursorId, count);
-        log.info("mysql, subset: {}", query);
+        log.info("mysql, cursorData: {}", query);
         return query;
     }
+
+    @Override
+    public List<ResponseTodo> offsetPaging(int size, int offset) {
+        String sql = "SELECT * FROM todos limit ? OFFSET ?";
+        List<ResponseTodo> query = jdbcTemplate.query(sql, new ResponseTodoRowMapper(), size, offset);
+        log.info("mysql, offsetData: {}", query);
+        return query;
+    }
+
+    @Override
+    public int getTotalCount() {
+        String sql = "select count(*) from todos";
+        int count = jdbcTemplate.queryForObject(sql, Integer.class);
+        log.info("count: {}", count);
+        return count;
+    }
+
+
 }

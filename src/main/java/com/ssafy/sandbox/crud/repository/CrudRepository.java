@@ -17,5 +17,9 @@ public interface CrudRepository {
 
     int deleteTodo(Long id);
 
-    List<ResponseTodo> findSubset(Long cursorId, int count);
+    List<ResponseTodo> cursorPaging(Long cursorId, int count);
+
+    List<ResponseTodo> offsetPaging(int size, int offset);
+
+    int getTotalCount();
 }
