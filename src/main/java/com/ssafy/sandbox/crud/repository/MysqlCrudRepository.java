@@ -75,7 +75,6 @@ public class MysqlCrudRepository implements CrudRepository {
     public int getTotalCount() {
         String sql = "select count(*) from todos";
         int count = jdbcTemplate.queryForObject(sql, Integer.class);
-        log.info("count: {}", count);
         return count;
     }
 
