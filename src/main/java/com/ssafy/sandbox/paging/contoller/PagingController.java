@@ -29,15 +29,14 @@ public class PagingController {
     @GetMapping("/paging/cursor")
     @ResponseStatus(HttpStatus.OK)
     public ResponseCursor cursorPaging(@ModelAttribute RequestCursor requestCursor) {
-        log.info("cursorPaging: {}", requestCursor);
+        log.info("Cursor Input Data: {}", requestCursor);
 
         List<ResponseTodo> pageTotos = cursorService.pagedTotos(requestCursor.size(), requestCursor.cursorId());
         Long lastId = cursorService.getNextCursor(pageTotos);
-        log.info("controller lastId: {}", lastId);
         boolean hasNext = cursorService.hasNext(requestCursor.cursorId(), requestCursor.size());
 
         ResponseCursor responseCursor = new ResponseCursor("정상적으로 요청되었습니다.", lastId, requestCursor.size(), hasNext, pageTotos);
-        log.info("responsePaging: {}", responseCursor);
+        log.info("Cursor Response Data: {}", responseCursor);
 
         return responseCursor;
     }
@@ -45,18 +44,20 @@ public class PagingController {
     @GetMapping("/paging/offset")
     @ResponseStatus(HttpStatus.OK)
     public ResponseOffset offsetPaging(@ModelAttribute RequestOffset requestOffset) {
-        log.info("offsetPaging: {}", requestOffset);
+        log.info("Offset Input Data: {}", requestOffset);
         int page = requestOffset.page();
         int size = requestOffset.size();
-        int getPage = offsetService.currentPageNumber(page);
+
+        String message = "정상적으로 요청되었습니다."; // 나중에 에러처리
+        int currentPageNumber = offsetService.currentPageNumber(page);
+        int totalPage = offsetService.totalPage(size);
+        boolean hasNext = offsetService.hasNext(size, page);
+        boolean hasPrevious = offsetService.hasPrevious(page);
         List<ResponseTodo> todos = offsetService.pagedTodos(size, page);
-        boolean hasNext = offsetService.hasPrevious(page);
-        int getSize = offsetService.totalPage(size);
+        ResponseOffset responseDate = new ResponseOffset(message, currentPageNumber,
+                size, totalPage, hasNext, hasPrevious, todos);
 
-
-        log.info("{}, {}, {}, {}, {}", page, size, getPage, todos, getSize);
-
-
-        return null;
+        log.info("Offset Response Data: {}", responseDate);
+        return responseDate;
     }
 }
