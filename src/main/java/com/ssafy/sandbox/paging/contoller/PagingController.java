@@ -1,7 +1,6 @@
 package com.ssafy.sandbox.paging.contoller;
 
-import com.ssafy.sandbox.crud.dto.ResponseTodo;
-import com.ssafy.sandbox.crud.dto.Todo;
+import com.ssafy.sandbox.domain.Todo;
 import com.ssafy.sandbox.paging.dto.RequestCursor;
 import com.ssafy.sandbox.paging.dto.RequestOffset;
 import com.ssafy.sandbox.paging.dto.ResponseCursor;
@@ -14,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController

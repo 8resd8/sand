@@ -1,7 +1,6 @@
 package com.ssafy.sandbox.util;
 
-import com.ssafy.sandbox.crud.dto.ResponseTodo;
-import com.ssafy.sandbox.crud.dto.Todo;
+import com.ssafy.sandbox.domain.Todo;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

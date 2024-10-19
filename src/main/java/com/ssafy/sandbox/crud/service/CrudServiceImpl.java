@@ -1,8 +1,7 @@
 package com.ssafy.sandbox.crud.service;
 
 import com.ssafy.sandbox.crud.dto.RequestTodo;
-import com.ssafy.sandbox.crud.dto.ResponseTodo;
-import com.ssafy.sandbox.crud.dto.Todo;
+import com.ssafy.sandbox.domain.Todo;
 import com.ssafy.sandbox.crud.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
