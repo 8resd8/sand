@@ -1,5 +1,6 @@
 package com.ssafy.sandbox.email.controller;
 
+import com.ssafy.sandbox.email.dto.RequestAuthCode;
 import com.ssafy.sandbox.email.dto.RequestEmail;
 import com.ssafy.sandbox.email.service.EmailSendService;
 import com.ssafy.sandbox.email.service.EmailVerificationService;
@@ -20,29 +21,50 @@ import java.util.HashMap;
 public class EmailController {
 
     private final EmailSendService emailSendService;
-    private final EmailVerificationService emailVerificationService
+    private final EmailVerificationService emailVerificationService;
 
     @PostMapping("/email")
     public ResponseEntity<?> sendCodeToEmail(@Validated @RequestBody RequestEmail requestEmail, BindingResult bindingResult) {
+        HashMap<String, Object> response = new HashMap<>();
+        log.info("userEmail: {}", requestEmail);
+
         if (bindingResult.hasErrors()) {
             log.error("잘못된 요청: {}", bindingResult.getAllErrors());
             return ResponseEntity.badRequest().body("잘못된 이메일 형식입니다.");
         }
 
         // 인증 코드 생성 및 Redis에 저장
-        String verificationCode = emailVerificationService.generateVerificationCode();
-        emailVerificationService.storeVerificationCode(requestEmail.getEmail(), verificationCode);
+        String authCode = emailVerificationService.generateVerificationCode();
+        emailVerificationService.storeVerificationCode(requestEmail.getEmail(), authCode);
 
         // 이메일 발송
-        emailSendService.sendEmailForm(requestEmail.getEmail(), "이메일 인증 코드", "인증 코드: " + verificationCode);
+        emailSendService.sendEmailForm(requestEmail.getEmail(), authCode);
 
-        // 인증코드를 비교하는 서비스 로직필요
+        response.put("isOk", true);
+        return ResponseEntity.ok().body(response);
+    }
 
+    @PostMapping("/authentication")
+    public ResponseEntity<?> authCodeVerification(@Validated @RequestBody RequestAuthCode authCode, BindingResult bindingResult) {
         HashMap<String, Object> response = new HashMap<>();
-        response.put("message", "이메일이 성공적으로 전송되었습니다.");
+        log.info("입력받은 사용자 code: {}", authCode);
 
+        if (bindingResult.hasErrors()) {
+            log.error("잘못된 요청: {}", bindingResult.getAllErrors());
+            return ResponseEntity.badRequest().body("잘못된 요청입니다.");
+        }
 
+        // 인증 코드를 비교
+        boolean isSuccess = emailVerificationService.verifyCode(authCode.getAuthentication());
 
-        return ResponseEntity.ok(response);
+        // 인증 성공
+        if (isSuccess) {
+            response.put("isSuccess", true);
+            return ResponseEntity.ok().body(response);
+        }
+
+        // 인증 실패
+        response.put("message", "잘못된 접근입니다.");
+        return ResponseEntity.badRequest().body(response);
     }
 }
