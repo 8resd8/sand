@@ -1,10 +1,7 @@
 package com.ssafy.sandbox.crud.repository;
 
-import com.ssafy.sandbox.crud.dto.ResponseTodo;
 import com.ssafy.sandbox.crud.dto.RequestTodo;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
+import com.ssafy.sandbox.crud.dto.Todo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,38 +10,38 @@ import java.util.List;
 //@Repository
 public class MemoryCrudRepository implements CrudRepository {
 
-    private static final List<ResponseTodo> todos = new ArrayList<>();
+    private static final List<Todo> todos = new ArrayList<>();
     private static long sequence = 0L;
 
     public MemoryCrudRepository() {
     }
 
     public void saveTodo(RequestTodo requestTodo) {
-        todos.add(new ResponseTodo(++sequence, requestTodo.getContent(), false));
+        todos.add(new Todo(++sequence, requestTodo.getContent(), false));
     }
 
     public int updateToggle(Long id) {
-        ResponseTodo findTodo = findById(id);
+        Todo findTodo = findById(id);
         if (findTodo == null) return 0;
 
         int index = todos.indexOf(findTodo);
-        todos.set(index, new ResponseTodo(id, findTodo.getContent(), !findTodo.isCompleted()));
+        todos.set(index, new Todo(id, findTodo.content(), !findTodo.completed()));
         return index;
     }
 
-    public ResponseTodo findById(Long id) {
+    public Todo findById(Long id) {
         return todos.stream().
-                filter(todo -> todo.getId().equals(id))
+                filter(todo -> todo.id().equals(id))
                 .findFirst()
                 .orElse(null);
     }
 
-    public List<ResponseTodo> findAll() {
+    public List<Todo> findAll() {
         return new ArrayList<>(todos);
     }
 
     public int deleteTodo(Long id) {
-        ResponseTodo find = findById(id);
+        Todo find = findById(id);
         if (find == null) return 0;
 
         todos.remove(find);
@@ -52,12 +49,12 @@ public class MemoryCrudRepository implements CrudRepository {
     }
 
     @Override
-    public List<ResponseTodo> cursorPaging(Long start, int count) {
+    public List<Todo> cursorPaging(Long start, int count) {
         return List.of(); // 구현 x
     }
 
     @Override
-    public List<ResponseTodo> offsetPaging(int size, int offset) {
+    public List<Todo> offsetPaging(int size, int offset) {
         return List.of(); // 구현 X
     }
 

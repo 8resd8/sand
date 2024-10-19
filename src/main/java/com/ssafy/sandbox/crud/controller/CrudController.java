@@ -2,6 +2,7 @@ package com.ssafy.sandbox.crud.controller;
 
 import com.ssafy.sandbox.crud.dto.RequestTodo;
 import com.ssafy.sandbox.crud.dto.ResponseTodo;
+import com.ssafy.sandbox.crud.dto.Todo;
 import com.ssafy.sandbox.crud.service.CrudService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
@@ -25,9 +27,16 @@ public class CrudController {
     @GetMapping
     public ResponseEntity<Map<String, Object>> readTodo() {
         log.info("readTodo:");
+        // 서비스에서 모든 Todo 항목을 조회
+        List<Todo> findAll = crudService.findAll();
 
-        List<ResponseTodo> todos = crudService.findAll();
+        // 조회된 Todo 리스트를 ResponseTodo로 변환
+        List<ResponseTodo> todos = findAll.stream()
+                .map(todo -> new ResponseTodo(todo.id(), todo.content(), todo.completed()))
+                .collect(Collectors.toList());
+
         log.info("todos: {}", todos);
+
         HashMap<String, Object> response = new HashMap<>();
         response.put("message", "정상적으로 요청되었습니다.");
         response.put("todos", todos);

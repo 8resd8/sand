@@ -2,6 +2,7 @@ package com.ssafy.sandbox.crud.repository;
 
 import com.ssafy.sandbox.crud.dto.RequestTodo;
 import com.ssafy.sandbox.crud.dto.ResponseTodo;
+import com.ssafy.sandbox.crud.dto.Todo;
 
 import java.util.List;
 
@@ -11,15 +12,15 @@ public interface CrudRepository {
 
     int updateToggle(Long id);
 
-    ResponseTodo findById(Long id);
+    Todo findById(Long id);
 
-    List<ResponseTodo> findAll();
+    List<Todo> findAll();
 
     int deleteTodo(Long id);
 
-    List<ResponseTodo> cursorPaging(Long cursorId, int count);
+    List<Todo> cursorPaging(Long cursorId, int count);
 
-    List<ResponseTodo> offsetPaging(int size, int offset);
+    List<Todo> offsetPaging(int size, int offset);
 
     int getTotalCount();
 }

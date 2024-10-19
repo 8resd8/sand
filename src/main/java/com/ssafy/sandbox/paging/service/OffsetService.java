@@ -1,6 +1,7 @@
 package com.ssafy.sandbox.paging.service;
 
 import com.ssafy.sandbox.crud.dto.ResponseTodo;
+import com.ssafy.sandbox.crud.dto.Todo;
 import com.ssafy.sandbox.crud.service.CrudService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,9 +18,9 @@ public class OffsetService  {
         this.crudService = crudService;
     }
 
-    public List<ResponseTodo> pagedTodos(int size, int page) {
+    public List<Todo> pagedTodos(int size, int page) {
         int offset = (page - 1) * size; // limit 개수 OFFSET 시작지점
-        List<ResponseTodo> todos = crudService.offsetPaging(size, offset);
+        List<Todo> todos = crudService.offsetPaging(size, offset);
 
         return todos;
     }

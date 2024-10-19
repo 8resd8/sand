@@ -2,6 +2,7 @@ package com.ssafy.sandbox.crud.service;
 
 import com.ssafy.sandbox.crud.dto.RequestTodo;
 import com.ssafy.sandbox.crud.dto.ResponseTodo;
+import com.ssafy.sandbox.crud.dto.Todo;
 import com.ssafy.sandbox.crud.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,12 +30,12 @@ public class CrudServiceImpl implements CrudService{
     }
 
     @Override
-    public ResponseTodo findById(Long id) {
+    public Todo findById(Long id) {
         return crudRepository.findById(id);
     }
 
     @Override
-    public List<ResponseTodo> findAll() {
+    public List<Todo> findAll() {
         return crudRepository.findAll();
     }
 
@@ -43,11 +44,11 @@ public class CrudServiceImpl implements CrudService{
         return crudRepository.deleteTodo(id);
     }
 
-    public List<ResponseTodo> cursorPaging(Long cursorId, int count) {
+    public List<Todo> cursorPaging(Long cursorId, int count) {
         return crudRepository.cursorPaging(cursorId, count);
     }
 
-    public List<ResponseTodo> offsetPaging(int size, int page) {
+    public List<Todo> offsetPaging(int size, int page) {
         return crudRepository.offsetPaging(size, page);
     }
 

@@ -1,15 +1,16 @@
 package com.ssafy.sandbox.util;
 
 import com.ssafy.sandbox.crud.dto.ResponseTodo;
+import com.ssafy.sandbox.crud.dto.Todo;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ResponseTodoRowMapper implements RowMapper<ResponseTodo> {
+public class TodoRowMapper implements RowMapper<Todo> {
     @Override
-    public ResponseTodo mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return new ResponseTodo(
+    public Todo mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return new Todo(
                 rs.getLong("id"),
                 rs.getString("content"),
                 rs.getBoolean("completed")

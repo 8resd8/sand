@@ -2,7 +2,8 @@ package com.ssafy.sandbox.crud.repository;
 
 import com.ssafy.sandbox.crud.dto.RequestTodo;
 import com.ssafy.sandbox.crud.dto.ResponseTodo;
-import com.ssafy.sandbox.util.ResponseTodoRowMapper;
+import com.ssafy.sandbox.crud.dto.Todo;
+import com.ssafy.sandbox.util.TodoRowMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -31,15 +32,15 @@ public class MysqlCrudRepository implements CrudRepository {
     }
 
     @Override
-    public ResponseTodo findById(Long id) {
+    public Todo findById(Long id) {
         String sql = "select * from todos where id = ?";
-        return jdbcTemplate.queryForObject(sql, new ResponseTodoRowMapper(), id);
+        return jdbcTemplate.queryForObject(sql, new TodoRowMapper(), id);
     }
 
     @Override
-    public List<ResponseTodo> findAll() {
+    public List<Todo> findAll() {
         String sql = "select id, content, completed from todos";
-        return jdbcTemplate.query(sql, new ResponseTodoRowMapper());
+        return jdbcTemplate.query(sql, new TodoRowMapper());
     }
 
     @Override
@@ -49,15 +50,15 @@ public class MysqlCrudRepository implements CrudRepository {
     }
 
     @Override
-    public List<ResponseTodo> cursorPaging(Long cursorId, int count) {
+    public List<Todo> cursorPaging(Long cursorId, int count) {
         String sql = "select * from todos where id > ? limit ?"; // 0부터 시작
-        return jdbcTemplate.query(sql, new ResponseTodoRowMapper(), cursorId, count);
+        return jdbcTemplate.query(sql, new TodoRowMapper(), cursorId, count);
     }
 
     @Override
-    public List<ResponseTodo> offsetPaging(int size, int offset) {
+    public List<Todo> offsetPaging(int size, int offset) {
         String sql = "SELECT * FROM todos limit ? OFFSET ?";
-        return jdbcTemplate.query(sql, new ResponseTodoRowMapper(), size, offset);
+        return jdbcTemplate.query(sql, new TodoRowMapper(), size, offset);
     }
 
     @Override
