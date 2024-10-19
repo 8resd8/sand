@@ -28,7 +28,6 @@ public class EmailVerificationService {
             int index = random.nextInt(CHARACTERS.length());
             sb.append(CHARACTERS.charAt(index));
         }
-        log.info("생성된 인증코드: {}", sb);
         return sb.toString();
     }
 
