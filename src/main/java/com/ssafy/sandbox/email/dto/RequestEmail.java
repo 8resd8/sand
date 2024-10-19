@@ -1,9 +1,12 @@
 package com.ssafy.sandbox.email.dto;
 
 import jakarta.validation.constraints.Email;
+import lombok.Getter;
+import lombok.ToString;
 
-
-public final class RequestEmail {
+@Getter
+@ToString
+public class RequestEmail {
 
     @Email
     private String email;
@@ -13,16 +16,5 @@ public final class RequestEmail {
 
     public RequestEmail(String email) {
         this.email = email;
-    }
-
-    public @Email String getEmail() {
-        return email;
-    }
-
-    @Override
-    public String toString() {
-        return "RequestEmail{" +
-                "email='" + email + '\'' +
-                '}';
     }
 }
