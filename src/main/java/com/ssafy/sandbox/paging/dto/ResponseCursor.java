@@ -1,6 +1,6 @@
 package com.ssafy.sandbox.paging.dto;
 
-import com.ssafy.sandbox.domain.Todo;
+import com.ssafy.sandbox.crud.dto.Todo;
 
 import java.util.List;
 

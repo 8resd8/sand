@@ -1,7 +1,7 @@
 package com.ssafy.sandbox.crud.repository;
 
 import com.ssafy.sandbox.crud.dto.RequestTodo;
-import com.ssafy.sandbox.domain.Todo;
+import com.ssafy.sandbox.crud.dto.Todo;
 
 import java.util.List;
 

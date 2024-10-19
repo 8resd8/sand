@@ -1,6 +1,6 @@
 package com.ssafy.sandbox.paging.service;
 
-import com.ssafy.sandbox.domain.Todo;
+import com.ssafy.sandbox.crud.dto.Todo;
 import com.ssafy.sandbox.crud.service.CrudService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

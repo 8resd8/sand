@@ -2,7 +2,7 @@ package com.ssafy.sandbox.crud.controller;
 
 import com.ssafy.sandbox.crud.dto.RequestTodo;
 import com.ssafy.sandbox.crud.dto.ResponseTodo;
-import com.ssafy.sandbox.domain.Todo;
+import com.ssafy.sandbox.crud.dto.Todo;
 import com.ssafy.sandbox.crud.service.CrudService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
