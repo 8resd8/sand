@@ -28,5 +28,4 @@ public class MysqlPagingRepository {
         String sql = "select count(*) from paging";
         return jdbcTemplate.queryForObject(sql, Integer.class);
     }
-
 }

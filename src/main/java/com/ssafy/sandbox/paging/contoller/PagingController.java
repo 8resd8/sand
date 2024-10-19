@@ -1,10 +1,6 @@
 package com.ssafy.sandbox.paging.contoller;
 
-import com.ssafy.sandbox.crud.dto.Todo;
-import com.ssafy.sandbox.paging.dto.RequestCursor;
-import com.ssafy.sandbox.paging.dto.RequestOffset;
-import com.ssafy.sandbox.paging.dto.ResponseCursor;
-import com.ssafy.sandbox.paging.dto.ResponseOffset;
+import com.ssafy.sandbox.paging.dto.*;
 import com.ssafy.sandbox.paging.service.CursorService;
 import com.ssafy.sandbox.paging.service.OffsetService;
 import lombok.RequiredArgsConstructor;
@@ -29,11 +25,11 @@ public class PagingController {
     public ResponseCursor cursorPaging(@ModelAttribute RequestCursor requestCursor) {
         log.info("Cursor Input Data: {}", requestCursor);
 
-        List<Todo> pageTotos = cursorService.pagedTotos(requestCursor.size(), requestCursor.cursorId());
-        Long lastId = cursorService.getNextCursor(pageTotos);
+        List<Paging> pages = cursorService.pagedTotos(requestCursor.size(), requestCursor.cursorId());
+        Long lastId = cursorService.getNextCursor(pages);
         boolean hasNext = cursorService.hasNext(requestCursor.cursorId(), requestCursor.size());
 
-        ResponseCursor responseCursor = new ResponseCursor("정상적으로 요청되었습니다.", lastId, requestCursor.size(), hasNext, pageTotos);
+        ResponseCursor responseCursor = new ResponseCursor(lastId, requestCursor.size(), hasNext, pages);
         log.info("Cursor Response Data: {}", responseCursor);
 
         return responseCursor;
@@ -47,13 +43,12 @@ public class PagingController {
         int page = requestOffset.page();
         int size = requestOffset.size();
 
-        String message = "정상적으로 요청되었습니다."; // 나중에 에러처리
         int currentPageNumber = offsetService.currentPageNumber(page);
         int totalPage = offsetService.totalPage(size);
         boolean hasNext = offsetService.hasNext(size, page);
         boolean hasPrevious = offsetService.hasPrevious(page);
-        List<Todo> todos = offsetService.pagedTodos(size, page);
-        ResponseOffset responseDate = new ResponseOffset(message, currentPageNumber,
+        List<Paging> todos = offsetService.pagedTodos(size, page);
+        ResponseOffset responseDate = new ResponseOffset(currentPageNumber,
                 size, totalPage, hasNext, hasPrevious, todos);
 
         log.info("Offset Response Data: {}", responseDate);

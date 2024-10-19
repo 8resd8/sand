@@ -1,7 +1,7 @@
 package com.ssafy.sandbox.paging.service;
 
-import com.ssafy.sandbox.crud.dto.Todo;
-import com.ssafy.sandbox.crud.service.CrudService;
+import com.ssafy.sandbox.paging.dto.Paging;
+import com.ssafy.sandbox.paging.repository.MysqlPagingRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -11,17 +11,15 @@ import java.util.List;
 @Service
 public class OffsetService  {
 
-    private final CrudService crudService;
+    private final MysqlPagingRepository mysqlPagingRepository;
 
-    public OffsetService(CrudService crudService) {
-        this.crudService = crudService;
+    public OffsetService(MysqlPagingRepository mysqlPagingRepository) {
+        this.mysqlPagingRepository = mysqlPagingRepository;
     }
 
-    public List<Todo> pagedTodos(int size, int page) {
+    public List<Paging> pagedTodos(int size, int page) {
         int offset = (page - 1) * size; // limit 개수 OFFSET 시작지점
-        List<Todo> todos = crudService.offsetPaging(size, offset);
-
-        return todos;
+        return mysqlPagingRepository.offsetPaging(size, offset);
     }
 
     public int currentPageNumber(int page) {
@@ -37,7 +35,7 @@ public class OffsetService  {
     }
 
     public int totalPage(int size) {
-        int totalData = crudService.getTotalCount();  // 총 데이터 개수
+        int totalData = mysqlPagingRepository.getTotalCount();  // 총 데이터 개수
         return (int) Math.ceil((double) totalData / size);  // 총 페이지 수 계산, 올림
     }
 }

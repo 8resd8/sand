@@ -1,7 +1,7 @@
 package com.ssafy.sandbox.paging.service;
 
-import com.ssafy.sandbox.crud.dto.Todo;
-import com.ssafy.sandbox.crud.service.CrudService;
+import com.ssafy.sandbox.paging.dto.Paging;
+import com.ssafy.sandbox.paging.repository.MysqlPagingRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -11,42 +11,34 @@ import java.util.List;
 @Service
 public class CursorService  {
 
-    private final CrudService crudService;
+    private final MysqlPagingRepository mysqlPagingRepository;
 
-    public CursorService(CrudService crudService) {
-        this.crudService = crudService;
+    public CursorService(MysqlPagingRepository mysqlPagingRepository) {
+        this.mysqlPagingRepository = mysqlPagingRepository;
     }
 
-    /**
-     * 커서를 기준으로 데이터 조회한다
-     */
-    public List<Todo> pagedTotos(int size, Long cursorId) {
+    public List<Paging> pagedTotos(int size, Long cursorId) {
         // 첫 요청이면 그대로 size 만큼 돌려주기
         if (cursorId == 0) {
-            return crudService.cursorPaging(0L, size);
+            return mysqlPagingRepository.cursorPaging(0L, size);
         }
 
-        List<Todo> todos = crudService.cursorPaging(cursorId, size + 1);
-        if (todos.size() > size) todos.remove(todos.size() - 1);
+        List<Paging> pages = mysqlPagingRepository.cursorPaging(cursorId, size + 1);
+        if (pages.size() > size) pages.remove(pages.size() - 1);
 
-        log.info("cursorId: {}, todosSize: {}", cursorId, todos.size());
-        return todos;
+        log.info("cursorId: {}, pagesSize: {}", cursorId, pages.size());
+        return pages;
     }
-
-    /**
-     * 다음 페이지가 있는지 확인
-     */
 
     public boolean hasNext(Long cursorId, int size) {
-        return crudService.cursorPaging(cursorId, size + 1).size() > size;
+        return mysqlPagingRepository.cursorPaging(cursorId, size + 1).size() > size;
     }
 
-
-    public Long getNextCursor(List<Todo> todos) {
-        if (todos.isEmpty()) return 0L;
+    public Long getNextCursor(List<Paging> pages) {
+        if (pages.isEmpty()) return 0L;
 
         // 마지막 데이터 ID 반환, 다음 페이지 커서로 사용
-        log.info("lastCursor: {}", todos.get(todos.size() - 1).id());
-        return todos.get(todos.size() - 1).id();
+        log.info("lastCursor: {}", pages.get(pages.size() - 1).id());
+        return pages.get(pages.size() - 1).id();
     }
 }
