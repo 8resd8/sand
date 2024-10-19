@@ -2,11 +2,12 @@ package com.ssafy.sandbox.crud.controller;
 
 import com.ssafy.sandbox.crud.dto.RequestTodo;
 import com.ssafy.sandbox.crud.dto.ResponseTodo;
-import com.ssafy.sandbox.crud.dto.Todo;
+import com.ssafy.sandbox.domain.Todo;
 import com.ssafy.sandbox.crud.service.CrudService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,14 +46,20 @@ public class CrudController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, String>> createTodo(@Validated @RequestBody RequestTodo todos) {
+    public ResponseEntity<HashMap<String, String>> createTodo(@Validated @RequestBody RequestTodo todos, BindingResult bindingResult) {
         log.info("createTodo Message: {}", todos);
+        HashMap<String, String> response = new HashMap<>();
 
-        Map<String, String> response = new HashMap<>();
+        if (bindingResult.hasErrors()) {
+            log.info("값의 문제가 있음: {}", todos);
+            response.put("message", "정상적이지 않은 요청입니다.");
+            return ResponseEntity.badRequest().body(response);
+        }
+
         response.put("message", todos.getContent());
         crudService.saveTodo(todos);
 
-        return ResponseEntity.of(Optional.of(response));
+        return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{todoId}")
