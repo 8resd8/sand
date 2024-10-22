@@ -39,6 +39,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '3.0.3'
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+	implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.5'
 }
 
 tasks.named('test') {
