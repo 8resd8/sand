@@ -25,28 +25,20 @@ public class CrudController {
     private final CrudService crudService;
 
     @GetMapping
-    public ResponseEntity<Map<String, Object>> readTodo() {
-        log.info("readTodo:");
-        // 서비스에서 모든 Todo 항목을 조회
-        List<Todo> findAll = crudService.findAll();
+    public ResponseEntity<?> readTodo() {
+        String massage = "정상적으로 요청되었습니다.";
 
-        // 조회된 Todo 리스트를 ResponseTodo로 변환
-        List<ResponseTodo> todos = findAll.stream()
-                .map(todo -> new ResponseTodo(todo.id(), todo.content(), todo.completed()))
-                .collect(Collectors.toList());
+        // 에러가 날 경우 메시지 변경
 
-        log.info("todos: {}", todos);
-
-        HashMap<String, Object> response = new HashMap<>();
-        response.put("message", "정상적으로 요청되었습니다.");
-        response.put("todos", todos);
+        ResponseTodo response = new ResponseTodo(massage, crudService.findAll());
+        log.info("Read response: {}", response);
 
         return ResponseEntity.ok(response);
     }
 
     @PostMapping
     public ResponseEntity<HashMap<String, String>> createTodo(@Validated @RequestBody RequestTodo todos, BindingResult bindingResult) {
-        log.info("createTodo Message: {}", todos);
+        log.info("createTodo: {}", todos);
         HashMap<String, String> response = new HashMap<>();
 
         if (bindingResult.hasErrors()) {
@@ -62,23 +54,23 @@ public class CrudController {
     }
 
     @PatchMapping("/{todoId}")
-    public ResponseEntity<Map<String, String>> UpdateTodo(@PathVariable Long todoId) {
+    public ResponseEntity<Map<String, Object>> UpdateTodo(@PathVariable Long todoId) {
         log.info("UpdateTodo id: {}", todoId);
         crudService.updateToggle(todoId);
-        Map<String, String> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         response.put("message", todoId + "의 completed가 정상적으로 토글되었습니다");
 
-        return ResponseEntity.ok(new HashMap<>(response));
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{todoId}")
-    public ResponseEntity<Map<String, String>> DeleteTodo(@PathVariable Long todoId) {
+    public ResponseEntity<Map<String, Object>> DeleteTodo(@PathVariable Long todoId) {
         log.info("DeleteTodo id: {}", todoId);
         crudService.deleteTodo(todoId);
 
-        Map<String, String> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
         response.put("message", todoId + "의 todo가 삭제되었습니다");
 
-        return ResponseEntity.ok(new HashMap<>(response));
+        return ResponseEntity.ok(response);
     }
 }
