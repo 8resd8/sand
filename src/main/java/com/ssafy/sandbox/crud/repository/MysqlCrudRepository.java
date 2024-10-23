@@ -5,6 +5,7 @@ import com.ssafy.sandbox.crud.dto.RequestTodo;
 import com.ssafy.sandbox.util.TodoRowMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @Repository
 @Slf4j
 @RequiredArgsConstructor
+@Primary
 public class MysqlCrudRepository implements CrudRepository {
 
     private final JdbcTemplate jdbcTemplate;

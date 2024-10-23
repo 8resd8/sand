@@ -2,12 +2,12 @@ package com.ssafy.sandbox.crud.repository;
 
 import com.ssafy.sandbox.crud.dto.Todo;
 import com.ssafy.sandbox.crud.dto.RequestTodo;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-//@Primary
-//@Repository
+@Repository
 public class MemoryCrudRepository implements CrudRepository {
 
     private static final List<Todo> todos = new ArrayList<>();
