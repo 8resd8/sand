@@ -29,7 +29,6 @@ public class CrudController {
         String massage = "정상적으로 요청되었습니다.";
 
         // 에러가 날 경우 메시지 변경
-
         ResponseTodo response = new ResponseTodo(massage, crudService.findAll());
         log.info("Read response: {}", response);
 
