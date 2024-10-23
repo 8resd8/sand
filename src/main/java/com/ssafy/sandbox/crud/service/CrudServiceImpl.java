@@ -3,20 +3,16 @@ package com.ssafy.sandbox.crud.service;
 import com.ssafy.sandbox.crud.dto.RequestTodo;
 import com.ssafy.sandbox.crud.dto.Todo;
 import com.ssafy.sandbox.crud.repository.CrudRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-//@RequiredArgsConstructor
-public class CrudServiceImpl implements CrudService{
+@RequiredArgsConstructor
+public class CrudServiceImpl implements CrudService {
 
-
-    private CrudRepository crudRepository;
-
-    public CrudServiceImpl(CrudRepository crudRepository) {
-        this.crudRepository = crudRepository;
-    }
+    private final CrudRepository crudRepository;
 
     @Override
     public void saveTodo(RequestTodo requestTodo) {
