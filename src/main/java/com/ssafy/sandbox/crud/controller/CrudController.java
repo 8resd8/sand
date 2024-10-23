@@ -24,9 +24,8 @@ public class CrudController {
         this.crudService = crudService;
     }
 
-
     @GetMapping
-    public ResponseEntity<?> readTodo() {
+    public ResponseEntity<ResponseTodo> readTodo() {
         String massage = "정상적으로 요청되었습니다.";
 
         // 에러가 날 경우 메시지 변경
@@ -37,9 +36,9 @@ public class CrudController {
     }
 
     @PostMapping
-    public ResponseEntity<HashMap<String, String>> createTodo(@Validated @RequestBody RequestTodo todos, BindingResult bindingResult) {
+    public ResponseEntity<HashMap<String, Object>> createTodo(@Validated @RequestBody RequestTodo todos, BindingResult bindingResult) {
         log.info("createTodo: {}", todos);
-        HashMap<String, String> response = new HashMap<>();
+        HashMap<String, Object> response = new HashMap<>();
 
         if (bindingResult.hasErrors()) {
             log.info("값의 문제가 있음: {}", todos);
