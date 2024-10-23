@@ -31,41 +31,23 @@ public class EmailVerificationService {
         return sb.toString();
     }
 
-    // Redis에 이메일과 인증 코드 저장
     public void storeVerificationCode(String email, String code) {
         log.info("이메일 및 인증코드 저장: 이메일: {}, 코드: {}", email, code);
-
-        // 이메일 -> 코드 저장, Key, Value, 지속시간
+        // 이메일 -> 코드 저장, key - value, 지속시간
         redisTemplate.opsForValue().set(email, code, Duration.ofMinutes(EXPIRATION_TIME));
-        // 코드 -> 이메일 저장 (코드로 이메일을 찾기)
-        redisTemplate.opsForValue().set(generateEmailKey(code), email, Duration.ofMinutes(EXPIRATION_TIME));
     }
 
-    // 인증 코드 검증
-    public boolean verifyCode(String autuCode) {
-        // 코드로 이메일 조회
-        String email = redisTemplate.opsForValue().get(generateEmailKey(autuCode));
-        if (email == null) {
-            log.info("인증 실패: 코드 불일치, 코드: {}", autuCode);
-            return false;
-        }
-
+    public boolean verifyCode(String email, String authCode) {
         // 이메일로 저장된 인증 코드 조회
         String storedCode = redisTemplate.opsForValue().get(email);
-        if (storedCode == null || !storedCode.equals(autuCode)) {
-            log.info("인증 실패: 이메일: {}, 저장된 코드: {}, 입력된 코드: {}", email, storedCode, autuCode);
+        if (storedCode != null && !storedCode.equals(authCode)) {
+            log.info("인증 실패: 이메일: {}, 저장된 코드: {}, 입력된 코드: {}", email, storedCode, authCode);
             return false;
         }
 
-        // 인증 성공 시 코드와 이메일 모두 삭제
-        log.info("인증 성공: 이메일: {}, 코드: {}", email, autuCode);
+        // 인증 성공 시 저장되어 있던 이메일 삭제
+        log.info("인증 성공: 이메일: {}, 코드: {}", email, authCode);
         redisTemplate.delete(email);
-        redisTemplate.delete(generateEmailKey(autuCode));
         return true;
-    }
-
-    // 코드로 이메일 조회용 키 생성
-    private String generateEmailKey(String code) {
-        return code + EMAIL_KEY_SUFFIX;
     }
 }
