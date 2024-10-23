@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -18,12 +19,13 @@ import java.util.HashMap;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
+@RequestMapping("/email")
 public class EmailController {
 
     private final EmailSendService emailSendService;
     private final EmailVerificationService emailVerificationService;
 
-    @PostMapping("/email")
+    @PostMapping
     public ResponseEntity<?> sendCodeToEmail(@Validated @RequestBody RequestEmail requestEmail, BindingResult bindingResult) {
         HashMap<String, Object> response = new HashMap<>();
         log.info("userEmail: {}", requestEmail);
