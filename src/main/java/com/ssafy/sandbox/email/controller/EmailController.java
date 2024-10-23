@@ -1,6 +1,6 @@
 package com.ssafy.sandbox.email.controller;
 
-import com.ssafy.sandbox.email.dto.RequestAuthCode;
+import com.ssafy.sandbox.email.dto.RequestAuthEmail;
 import com.ssafy.sandbox.email.dto.RequestEmail;
 import com.ssafy.sandbox.email.service.EmailSendService;
 import com.ssafy.sandbox.email.service.EmailVerificationService;
@@ -47,9 +47,9 @@ public class EmailController {
     }
 
     @PostMapping("/authentication")
-    public ResponseEntity<?> authCodeVerification(@Validated @RequestBody RequestAuthCode authCode, BindingResult bindingResult) {
+    public ResponseEntity<?> authCodeVerification(@Validated @RequestBody RequestAuthEmail requestAuthEmail, BindingResult bindingResult) {
         HashMap<String, Object> response = new HashMap<>();
-        log.info("입력받은 사용자 code: {}", authCode);
+        log.info("입력받은 사용자 Email, AuthCode: {}", requestAuthEmail);
 
         if (bindingResult.hasErrors()) {
             log.error("잘못된 요청: {}", bindingResult.getAllErrors());
@@ -57,7 +57,7 @@ public class EmailController {
         }
 
         // 인증 코드를 비교
-        boolean isSuccess = emailVerificationService.verifyCode(authCode.getAuthentication());
+        boolean isSuccess = emailVerificationService.verifyCode(requestAuthEmail.getEmail(), requestAuthEmail.getAuthentication());
 
         // 인증 성공
         if (isSuccess) {
