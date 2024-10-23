@@ -1,21 +1,15 @@
 package com.ssafy.sandbox.crud.dto;
 
-import lombok.Getter;
-import lombok.ToString;
 
-@Getter
-@ToString
+import java.util.List;
+
+
 public class ResponseTodo {
-    private Long id;
-    private String content;
-    private boolean completed;
+    private final String message;
+    private final List<Todo> todos;
 
-    public ResponseTodo() {
-    }
-
-    public ResponseTodo(Long id, String content, boolean completed) {
-        this.id = id;
-        this.content = content;
-        this.completed = completed;
+    public ResponseTodo(String message, List<Todo> todos) {
+        this.message = message;
+        this.todos = todos;
     }
 }
