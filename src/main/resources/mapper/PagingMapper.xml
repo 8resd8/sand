@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.sandbox.paging.repository.MyBatisPagingMapper">
+
+    <select id="cursorPaging" resultType="Paging">
+        select id, title, createdAt
+        from paging
+        where id > #{cursorId} limit #{count}
+    </select>
+
+    <select id="offsetPaging" resultType="Paging">
+        select id, title, createdAt
+        from paging
+        limit #{size} , #{offset}
+    </select>
+
+    <select id="getTotalCount" resultType="int">
+        select count(*)
+        from paging
+    </select>
+
+</mapper>
