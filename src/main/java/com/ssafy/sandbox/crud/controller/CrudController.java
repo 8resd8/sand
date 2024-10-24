@@ -2,30 +2,30 @@ package com.ssafy.sandbox.crud.controller;
 
 import com.ssafy.sandbox.crud.dto.RequestTodo;
 import com.ssafy.sandbox.crud.dto.ResponseTodo;
-import com.ssafy.sandbox.crud.dto.Todo;
 import com.ssafy.sandbox.crud.service.CrudService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @Slf4j
-@RequiredArgsConstructor
 @RequestMapping({"/", "/todos"})
 public class CrudController {
 
     private final CrudService crudService;
 
+    public CrudController(@Qualifier("myBatis") CrudService crudService) {
+        this.crudService = crudService;
+    }
+
     @GetMapping
-    public ResponseEntity<?> readTodo() {
+    public ResponseEntity<ResponseTodo> readTodo() {
         String massage = "정상적으로 요청되었습니다.";
 
         // 에러가 날 경우 메시지 변경
@@ -36,9 +36,9 @@ public class CrudController {
     }
 
     @PostMapping
-    public ResponseEntity<HashMap<String, String>> createTodo(@Validated @RequestBody RequestTodo todos, BindingResult bindingResult) {
+    public ResponseEntity<HashMap<String, Object>> createTodo(@Validated @RequestBody RequestTodo todos, BindingResult bindingResult) {
         log.info("createTodo: {}", todos);
-        HashMap<String, String> response = new HashMap<>();
+        HashMap<String, Object> response = new HashMap<>();
 
         if (bindingResult.hasErrors()) {
             log.info("값의 문제가 있음: {}", todos);
