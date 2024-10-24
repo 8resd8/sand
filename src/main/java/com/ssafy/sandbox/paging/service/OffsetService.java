@@ -2,12 +2,11 @@ package com.ssafy.sandbox.paging.service;
 
 import com.ssafy.sandbox.paging.dto.Paging;
 import com.ssafy.sandbox.paging.repository.MysqlPagingRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Slf4j
+
 @Service
 public class OffsetService  {
 

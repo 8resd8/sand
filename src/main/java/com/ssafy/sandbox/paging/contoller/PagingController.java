@@ -28,7 +28,7 @@ public class PagingController {
         boolean hasNext = totalPagingService.hasNext(requestCursor.cursorId(), requestCursor.size());
 
         ResponseCursor responseCursor = new ResponseCursor(lastId, requestCursor.size(), hasNext, pages);
-        log.info("Cursor Response Data: {}", responseCursor);
+        log.info("Cursor Response Cursor: {}", responseCursor);
 
         return responseCursor;
     }
@@ -46,10 +46,10 @@ public class PagingController {
         boolean hasNext = totalPagingService.hasNext(size, page);
         boolean hasPrevious = totalPagingService.hasPrevious(page);
         List<Paging> todos = totalPagingService.pagedTodos(size, page);
-        ResponseOffset responseDate = new ResponseOffset(currentPageNumber,
+        ResponseOffset responseOffset = new ResponseOffset(currentPageNumber,
                 size, totalPage, hasNext, hasPrevious, todos);
 
-        log.info("Offset Response Data: {}", responseDate);
-        return responseDate;
+        log.info("Offset Response Offset: {}", responseOffset);
+        return responseOffset;
     }
 }
