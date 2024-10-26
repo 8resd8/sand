@@ -34,7 +34,6 @@ public class PagingController {
         return responseCursor;
     }
 
-
     @GetMapping("/paging/offset")
     @ResponseStatus(HttpStatus.OK)
     public ResponseOffset offsetPaging(@ModelAttribute RequestOffset requestOffset) {
@@ -46,7 +45,7 @@ public class PagingController {
         int totalPage = totalPagingService.totalPage(size);
         boolean hasNext = totalPagingService.hasNext(size, page);
         boolean hasPrevious = totalPagingService.hasPrevious(page);
-        List<Paging> todos = totalPagingService.pagedTodos(size, page);
+        List<Paging> todos = totalPagingService.getPagingData(size, page);
         log.info("offset todos 목록: {}", todos);
         ResponseOffset responseOffset = new ResponseOffset(currentPageNumber,
                 size, totalPage, hasNext, hasPrevious, todos);
@@ -56,9 +55,8 @@ public class PagingController {
     }
 
     @PostMapping("/make")
-    public ResponseEntity<?> makeData(@RequestBody RequestData requestData) {
-        log.info("Make Data Request: {}", requestData.articles());
-
+    public ResponseEntity<String> makeData(@RequestBody RequestData requestData) {
+        log.info("Make Data size: {}, Request: {}", requestData.articles().size(), requestData.articles());
         boolean isSuccess = totalPagingService.makeData(requestData);
 
         if (isSuccess) {

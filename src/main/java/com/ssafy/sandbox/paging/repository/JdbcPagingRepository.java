@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class MysqlPagingRepository {
+public class JdbcPagingRepository {
 
     private final JdbcTemplate jdbcTemplate;
 

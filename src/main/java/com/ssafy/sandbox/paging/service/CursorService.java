@@ -1,7 +1,7 @@
 package com.ssafy.sandbox.paging.service;
 
 import com.ssafy.sandbox.paging.dto.Paging;
-import com.ssafy.sandbox.paging.repository.MysqlPagingRepository;
+import com.ssafy.sandbox.paging.repository.JdbcPagingRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -11,19 +11,19 @@ import java.util.List;
 @Service
 public class CursorService  {
 
-    private final MysqlPagingRepository mysqlPagingRepository;
+    private final JdbcPagingRepository jdbcPagingRepository;
 
-    public CursorService(MysqlPagingRepository mysqlPagingRepository) {
-        this.mysqlPagingRepository = mysqlPagingRepository;
+    public CursorService(JdbcPagingRepository jdbcPagingRepository) {
+        this.jdbcPagingRepository = jdbcPagingRepository;
     }
 
     public List<Paging> pagedTotos(int size, Long cursorId) {
         // 첫 요청이면 그대로 size 만큼 돌려주기
         if (cursorId == 0) {
-            return mysqlPagingRepository.cursorPaging(0L, size);
+            return jdbcPagingRepository.cursorPaging(0L, size);
         }
 
-        List<Paging> pages = mysqlPagingRepository.cursorPaging(cursorId, size + 1);
+        List<Paging> pages = jdbcPagingRepository.cursorPaging(cursorId, size + 1);
         if (pages.size() > size) pages.remove(pages.size() - 1);
 
         log.info("cursorId: {}, pagesSize: {}", cursorId, pages.size());
@@ -31,7 +31,7 @@ public class CursorService  {
     }
 
     public boolean hasNext(Long cursorId, int size) {
-        return mysqlPagingRepository.cursorPaging(cursorId, size + 1).size() > size;
+        return jdbcPagingRepository.cursorPaging(cursorId, size + 1).size() > size;
     }
 
     public Long getNextCursor(List<Paging> pages) {
