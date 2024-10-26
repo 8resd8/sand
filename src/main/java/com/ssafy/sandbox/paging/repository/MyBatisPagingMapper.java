@@ -13,5 +13,7 @@ public interface MyBatisPagingMapper {
 
     List<Paging> offsetPaging(@Param("size") int size, @Param("offset") int offset);
 
+    boolean insertPagingData(@Param("paging") List<Paging> paging);
+
     int getTotalCount();
 }

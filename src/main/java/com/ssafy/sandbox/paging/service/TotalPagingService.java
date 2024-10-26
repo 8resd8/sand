@@ -1,7 +1,8 @@
 package com.ssafy.sandbox.paging.service;
 
 import com.ssafy.sandbox.paging.dto.Paging;
-import com.ssafy.sandbox.paging.repository.MysqlPagingRepository;
+import com.ssafy.sandbox.paging.dto.RequestData;
+import com.ssafy.sandbox.paging.repository.MyBatisPagingMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,22 +12,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TotalPagingService {
 
-    private final MysqlPagingRepository mysqlPagingRepository;
+    private final MyBatisPagingMapper myBatisPagingMapper;
 
     public List<Paging> pagedTotos(int size, Long cursorId) {
         // 첫 요청이면 그대로 size 만큼 돌려주기
         if (cursorId == 0) {
-            return mysqlPagingRepository.cursorPaging(0L, size);
+            return myBatisPagingMapper.cursorPaging(0L, size);
         }
 
-        List<Paging> pages = mysqlPagingRepository.cursorPaging(cursorId, size + 1);
+        List<Paging> pages = myBatisPagingMapper.cursorPaging(cursorId, size + 1);
         if (pages.size() > size) pages.remove(pages.size() - 1);
 
         return pages;
     }
 
     public boolean hasNext(Long cursorId, int size) {
-        return mysqlPagingRepository.cursorPaging(cursorId, size + 1).size() > size;
+        return myBatisPagingMapper.cursorPaging(cursorId, size + 1).size() > size;
     }
 
     public Long getNextCursor(List<Paging> pages) {
@@ -39,8 +40,8 @@ public class TotalPagingService {
     // 위는 Cursor, 아래는 Offset
 
     public List<Paging> pagedTodos(int size, int page) {
-        int offset = (page - 1) * size; // limit 개수 OFFSET 시작지점
-        return mysqlPagingRepository.offsetPaging(size, offset);
+        int offset = (page - 1) * size; // limit size OFFSET offset, page: 1부터 입력
+        return myBatisPagingMapper.offsetPaging(size, offset);
     }
 
     public int currentPageNumber(int page) {
@@ -48,7 +49,7 @@ public class TotalPagingService {
     }
 
     public boolean hasPrevious(int page) {
-        return page > 0; // 이전 페이지
+        return page > 1; // 이전 페이지
     }
 
     public boolean hasNext(int size, int page) {
@@ -56,7 +57,11 @@ public class TotalPagingService {
     }
 
     public int totalPage(int size) {
-        int totalData = mysqlPagingRepository.getTotalCount();  // 총 데이터 개수
+        int totalData = myBatisPagingMapper.getTotalCount();  // 총 데이터 개수
         return (int) Math.ceil((double) totalData / size);  // 총 페이지 수 계산, 올림
+    }
+
+    public boolean makeData(RequestData requestData) {
+        return myBatisPagingMapper.insertPagingData(requestData.articles());
     }
 }
