@@ -14,7 +14,7 @@ public class TotalPagingService {
 
     private final MyBatisPagingMapper myBatisPagingMapper;
 
-    public List<Paging> pagedTotos(int size, Long cursorId) {
+    public List<Paging> getCursorPaging(int size, Long cursorId) {
         // 첫 요청이면 그대로 size 만큼 돌려주기
         if (cursorId == 0) {
             return myBatisPagingMapper.cursorPaging(0L, size);
@@ -39,7 +39,7 @@ public class TotalPagingService {
 
     // 위는 Cursor, 아래는 Offset
 
-    public List<Paging> getPagingData(int size, int page) {
+    public List<Paging> getOffsetPaging(int size, int page) {
         int offset = (page - 1) * size; // limit size OFFSET offset, page: 1부터 입력
         return myBatisPagingMapper.offsetPaging(size, offset);
     }
