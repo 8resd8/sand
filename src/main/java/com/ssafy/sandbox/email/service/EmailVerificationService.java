@@ -17,8 +17,6 @@ public class EmailVerificationService {
     private static final SecureRandom random = new SecureRandom();
     private static final long EXPIRATION_TIME = 5;  // 인증 코드의 만료 시간 (분)
 
-    private static final String EMAIL_KEY_SUFFIX = ":email";  // 코드로 이메일을 조회할 때 사용
-
     private final StringRedisTemplate redisTemplate;
 
     // 6자리 무작위 인증코드 생성
