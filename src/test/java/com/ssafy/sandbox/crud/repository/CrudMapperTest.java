@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @MybatisTest
 @Transactional
 @Rollback
+@SpringBootTest
 public class CrudMapperTest {
 
     @Autowired
