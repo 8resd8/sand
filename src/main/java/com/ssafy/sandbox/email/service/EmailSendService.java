@@ -1,12 +1,17 @@
 package com.ssafy.sandbox.email.service;
 
 
+import com.ssafy.sandbox.email.dto.RequestEmail;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+
+import java.util.HashMap;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +20,7 @@ public class EmailSendService {
 
     public static final String EMAIL_TITLE = "Sandbox: 이메일 인증 코드";
     private final JavaMailSender javaMailSender;
+    private final EmailVerificationService emailVerificationService;
 
     /// 발신할 이메일 설정
     public void sendEmailForm(String toEmail, String authCode) {
@@ -64,5 +70,21 @@ public class EmailSendService {
                 </html>
                 """.formatted(authCode);
 
+    }
+
+    public ResponseEntity<?> handleEmailSend(RequestEmail requestEmail, BindingResult bindingResult) {
+        HashMap<String, Object> response = new HashMap<>();
+
+        if (bindingResult.hasErrors()) {
+            log.error("잘못된 요청: {}", bindingResult.getAllErrors());
+            return ResponseEntity.badRequest().body("잘못된 이메일 형식입니다.");
+        }
+
+        String authCode = emailVerificationService.generateVerificationCode();
+        emailVerificationService.storeVerificationCode(requestEmail.getEmail(), authCode);
+        sendEmailForm(requestEmail.getEmail(), authCode);
+
+        response.put("isOk", true);
+        return ResponseEntity.ok().body(response);
     }
 }

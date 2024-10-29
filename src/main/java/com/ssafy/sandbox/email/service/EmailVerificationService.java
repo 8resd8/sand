@@ -1,12 +1,16 @@
 package com.ssafy.sandbox.email.service;
 
+import com.ssafy.sandbox.email.dto.RequestAuthEmail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import java.security.SecureRandom;
 import java.time.Duration;
+import java.util.HashMap;
 
 @Slf4j
 @Service
@@ -47,5 +51,23 @@ public class EmailVerificationService {
         log.info("인증 성공: 이메일: {}, 코드: {}", email, authCode);
         redisTemplate.delete(email);
         return true;
+    }
+
+    public ResponseEntity<?> handleAuthCodeVerification(RequestAuthEmail requestAuthEmail, BindingResult bindingResult) {
+        HashMap<String, Object> response = new HashMap<>();
+
+        if (bindingResult.hasErrors()) {
+            log.error("잘못된 요청: {}", bindingResult.getAllErrors());
+            return ResponseEntity.badRequest().body("잘못된 요청입니다.");
+        }
+
+        boolean isSuccess = verifyCode(requestAuthEmail.getEmail(), requestAuthEmail.getAuthentication());
+        if (isSuccess) {
+            response.put("isSuccess", true);
+            return ResponseEntity.ok().body(response);
+        }
+
+        response.put("message", "잘못된 접근입니다.");
+        return ResponseEntity.badRequest().body(response);
     }
 }
