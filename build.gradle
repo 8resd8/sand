@@ -46,9 +46,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 //	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
-	// mybatis test 의존성
+	// mybatis test
 	testImplementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter-test', version: '3.0.3'
 
+	// 테스트를 위한 DB H2
+	testImplementation 'com.h2database:h2'
 }
 
 tasks.named('test') {
