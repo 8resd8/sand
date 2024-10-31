@@ -1,7 +1,6 @@
 package com.ssafy.sandbox.paging.service;
 
-import com.ssafy.sandbox.paging.dto.Paging;
-import com.ssafy.sandbox.paging.dto.RequestData;
+import com.ssafy.sandbox.paging.dto.*;
 import com.ssafy.sandbox.paging.repository.MyBatisPagingMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -63,5 +62,29 @@ public class TotalPagingService {
 
     public boolean makeData(RequestData requestData) {
         return myBatisPagingMapper.insertPagingData(requestData.articles());
+    }
+
+
+    public ResponseCursor responseCursor(RequestCursor requestCursor) {
+        List<Paging> pages = getCursorPaging(requestCursor.size(), requestCursor.cursorId());
+        Long lastId = getNextCursor(pages);
+        boolean hasNext = hasNext(requestCursor.cursorId(), requestCursor.size());
+
+        return new ResponseCursor(lastId, requestCursor.size(), hasNext, pages);
+    }
+
+
+    public ResponseOffset responseOffset(RequestOffset requestOffset) {
+        int page = requestOffset.page();
+        int size = requestOffset.size();
+
+        int currentPageNumber = currentPageNumber(page);
+        int totalPage = totalPage(size);
+        boolean hasNext = hasNext(size, page);
+        boolean hasPrevious = hasPrevious(page);
+        List<Paging> todos = getOffsetPaging(size, page);
+
+        return new ResponseOffset(currentPageNumber,
+                size, totalPage, hasNext, hasPrevious, todos);
     }
 }

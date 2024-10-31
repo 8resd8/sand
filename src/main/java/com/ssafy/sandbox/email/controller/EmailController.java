@@ -25,13 +25,13 @@ public class EmailController {
 
     @PostMapping
     public ResponseEntity<?> sendCodeToEmail(@Validated @RequestBody RequestEmail requestEmail, BindingResult bindingResult) {
-        log.info("userEmail: {}", requestEmail);
+
         return emailSendService.handleEmailSend(requestEmail, bindingResult);
     }
 
     @PostMapping("/authentication")
     public ResponseEntity<?> authCodeVerification(@Validated @RequestBody RequestAuthEmail requestAuthEmail, BindingResult bindingResult) {
-        log.info("입력받은 사용자 Email, AuthCode: {}", requestAuthEmail);
+
         return emailVerificationService.handleAuthCodeVerification(requestAuthEmail, bindingResult);
     }
 }

@@ -30,18 +30,16 @@ public class CrudController {
 
         // 에러가 날 경우 메시지 변경
         ResponseTodo response = new ResponseTodo(massage, crudService.findAll());
-        log.info("Read response: {}", response);
 
         return ResponseEntity.ok(response);
     }
 
     @PostMapping
     public ResponseEntity<HashMap<String, Object>> createTodo(@Validated @RequestBody RequestTodo todos, BindingResult bindingResult) {
-        log.info("createTodo: {}", todos);
         HashMap<String, Object> response = new HashMap<>();
 
         if (bindingResult.hasErrors()) {
-            log.info("값의 문제가 있음: {}", todos);
+            log.error("값의 문제가 있음: {}", todos);
             response.put("message", "정상적이지 않은 요청입니다.");
             return ResponseEntity.badRequest().body(response);
         }
@@ -54,7 +52,6 @@ public class CrudController {
 
     @PatchMapping("/{todoId}")
     public ResponseEntity<Map<String, Object>> UpdateTodo(@PathVariable Long todoId) {
-        log.info("UpdateTodo id: {}", todoId);
         crudService.updateToggle(todoId);
         Map<String, Object> response = new HashMap<>();
         response.put("message", todoId + "의 completed가 정상적으로 토글되었습니다");
@@ -64,7 +61,6 @@ public class CrudController {
 
     @DeleteMapping("/{todoId}")
     public ResponseEntity<Map<String, Object>> DeleteTodo(@PathVariable Long todoId) {
-        log.info("DeleteTodo id: {}", todoId);
         crudService.deleteTodo(todoId);
 
         Map<String, Object> response = new HashMap<>();

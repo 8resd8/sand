@@ -34,7 +34,6 @@ public class EmailVerificationService {
     }
 
     public void storeVerificationCode(String email, String code) {
-        log.info("이메일 및 인증코드 저장: 이메일: {}, 코드: {}", email, code);
         // 이메일 -> 코드 저장, key - value, 지속시간
         redisTemplate.opsForValue().set(email, code, Duration.ofMinutes(EXPIRATION_TIME));
     }
@@ -57,7 +56,6 @@ public class EmailVerificationService {
         HashMap<String, Object> response = new HashMap<>();
 
         if (bindingResult.hasErrors()) {
-            log.error("잘못된 요청: {}", bindingResult.getAllErrors());
             return ResponseEntity.badRequest().body("잘못된 요청입니다.");
         }
 
