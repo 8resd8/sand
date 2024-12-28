@@ -1,7 +1,7 @@
-package com.ssafy.sandbox.crud.service;
+package com.ssafy.sandbox.crud.service.v0;
 
-import com.ssafy.sandbox.crud.dto.RequestTodo;
-import com.ssafy.sandbox.crud.dto.Todo;
+import com.ssafy.sandbox.crud.dto.v0.RequestTodo;
+import com.ssafy.sandbox.crud.dto.v0.Todo;
 import com.ssafy.sandbox.crud.repository.CrudRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

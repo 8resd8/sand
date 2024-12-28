@@ -1,4 +1,4 @@
-package com.ssafy.sandbox.crud.dto;
+package com.ssafy.sandbox.crud.dto.v0;
 
 
 import lombok.Getter;

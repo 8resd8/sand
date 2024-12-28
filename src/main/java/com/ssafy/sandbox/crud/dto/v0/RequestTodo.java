@@ -1,4 +1,4 @@
-package com.ssafy.sandbox.crud.dto;
+package com.ssafy.sandbox.crud.dto.v0;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
