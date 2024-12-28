@@ -31,8 +31,9 @@ public class PageService {
 
     public CursorResponse getCursor(Long cursorId, int size) {
         List<PageDto> cursorPage = articleRepository.findByCursor(cursorId, size);
+        long lastId = articleRepository.getLastId(cursorId, cursorPage);
 
-        return new CursorResponse(cursorPage, cursorPage.size());
+        return new CursorResponse(cursorPage, lastId);
     }
 
     public void saveAll(PageRequest request) {
