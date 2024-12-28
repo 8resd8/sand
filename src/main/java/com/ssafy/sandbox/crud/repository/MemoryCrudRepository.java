@@ -1,7 +1,7 @@
 package com.ssafy.sandbox.crud.repository;
 
-import com.ssafy.sandbox.crud.dto.Todo;
-import com.ssafy.sandbox.crud.dto.RequestTodo;
+import com.ssafy.sandbox.crud.dto.v0.Todo;
+import com.ssafy.sandbox.crud.dto.v0.RequestTodo;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

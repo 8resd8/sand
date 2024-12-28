@@ -1,7 +1,7 @@
 package com.ssafy.sandbox.crud.repository;
 
-import com.ssafy.sandbox.crud.dto.RequestTodo;
-import com.ssafy.sandbox.crud.dto.Todo;
+import com.ssafy.sandbox.crud.dto.v0.RequestTodo;
+import com.ssafy.sandbox.crud.dto.v0.Todo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
