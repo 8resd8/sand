@@ -3,6 +3,7 @@ package com.ssafy.sandbox.crud.repository.v1;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.sandbox.crud.dto.TodoResponse;
+import com.ssafy.sandbox.crud.dto.TodosResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +18,7 @@ public class TodoQueryRepository {
     private final JPAQueryFactory queryFactory;
 
 
-    public List<TodoResponse> findAllTodo() {
+    public List<TodoResponse> findTodo() {
         return queryFactory
                 .select(Projections.constructor(TodoResponse.class,
                         todo.id,
@@ -25,5 +26,9 @@ public class TodoQueryRepository {
                         todo.completed))
                 .from(todo)
                 .fetch();
+    }
+
+    public TodosResponse findAllTodo() {
+        return new TodosResponse(findTodo());
     }
 }
