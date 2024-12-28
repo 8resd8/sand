@@ -1,6 +1,6 @@
 package com.ssafy.sandbox.util;
 
-import com.ssafy.sandbox.crud.dto.Todo;
+import com.ssafy.sandbox.crud.dto.v0.Todo;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
