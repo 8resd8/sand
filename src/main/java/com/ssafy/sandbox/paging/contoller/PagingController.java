@@ -1,45 +1,36 @@
 package com.ssafy.sandbox.paging.contoller;
 
-import com.ssafy.sandbox.paging.dto.*;
-import com.ssafy.sandbox.paging.service.TotalPagingService;
+import com.ssafy.sandbox.paging.dto.CursorResponse;
+import com.ssafy.sandbox.paging.dto.OffsetResponse;
+import com.ssafy.sandbox.paging.dto.PageRequest;
+import com.ssafy.sandbox.paging.service.PageService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 
-@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/articles")
 public class PagingController {
 
-    private final TotalPagingService totalPagingService;
-
-
-    @GetMapping("/paging/cursor")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseCursor cursorPaging(@ModelAttribute RequestCursor requestCursor) {
-
-        return totalPagingService.responseCursor(requestCursor);
-    }
+    private final PageService pageService;
 
 
     @GetMapping("/paging/offset")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseOffset offsetPaging(@ModelAttribute RequestOffset requestOffset) {
-
-        return totalPagingService.responseOffset(requestOffset);
+    public OffsetResponse offsetPaging(Pageable pageable) {
+        return pageService.getOffset(pageable);
     }
 
-    @PostMapping("/make")
-    public ResponseEntity<String> makeData(@RequestBody RequestData requestData) {
-        boolean isSuccess = totalPagingService.makeData(requestData);
+    @GetMapping("/paging/cursor")
+    public CursorResponse cursorPaging(@RequestParam(required = false, defaultValue = "0") Long cursorId,
+                                       @RequestParam(defaultValue = "10") int size) {
+        return pageService.getCursor(cursorId, size);
+    }
 
-        if (isSuccess) {
-            return new ResponseEntity<>("데이터 저장 성공", HttpStatus.OK);
-        }
-        return new ResponseEntity<>("데이터 저장 에러", HttpStatus.INTERNAL_SERVER_ERROR);
+
+    @PostMapping("/make")
+    public void saveAll(@RequestBody PageRequest request) {
+        pageService.saveAll(request);
     }
 }
