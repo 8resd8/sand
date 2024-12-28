@@ -3,6 +3,7 @@ package com.ssafy.sandbox.crud.repository.v1;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.sandbox.crud.dto.TodoResponse;
+import com.ssafy.sandbox.crud.dto.TodosResponse;
 import com.ssafy.sandbox.crud.entity.Todo;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,9 +41,9 @@ class TodoQueryRepositoryTest {
 
     @Test
     void findAllTodo() {
-        List<TodoResponse> findTodos = todoQueryRepository.findAllTodo();
+        TodosResponse findTodos = todoQueryRepository.findAllTodo();
 
-        assertThat(findTodos.size()).isEqualTo(10);
+        assertThat(findTodos.getTodos().size()).isEqualTo(10);
     }
 
     @Test
