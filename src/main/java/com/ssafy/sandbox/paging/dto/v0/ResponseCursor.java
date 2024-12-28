@@ -1,4 +1,4 @@
-package com.ssafy.sandbox.paging.dto;
+package com.ssafy.sandbox.paging.dto.v0;
 
 import java.util.List;
 

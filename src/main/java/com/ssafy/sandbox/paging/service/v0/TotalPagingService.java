@@ -1,7 +1,7 @@
-package com.ssafy.sandbox.paging.service;
+package com.ssafy.sandbox.paging.service.v0;
 
-import com.ssafy.sandbox.paging.dto.*;
-import com.ssafy.sandbox.paging.repository.MyBatisPagingMapper;
+import com.ssafy.sandbox.paging.dto.v0.*;
+import com.ssafy.sandbox.paging.repository.v0.MyBatisPagingMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
-package com.ssafy.sandbox.paging.repository;
+package com.ssafy.sandbox.paging.repository.v0;
 
-import com.ssafy.sandbox.paging.dto.Paging;
+import com.ssafy.sandbox.paging.dto.v0.Paging;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

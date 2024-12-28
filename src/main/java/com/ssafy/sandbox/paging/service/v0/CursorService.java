@@ -1,7 +1,7 @@
-package com.ssafy.sandbox.paging.service;
+package com.ssafy.sandbox.paging.service.v0;
 
-import com.ssafy.sandbox.paging.dto.Paging;
-import com.ssafy.sandbox.paging.repository.JdbcPagingRepository;
+import com.ssafy.sandbox.paging.dto.v0.Paging;
+import com.ssafy.sandbox.paging.repository.v0.JdbcPagingRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
