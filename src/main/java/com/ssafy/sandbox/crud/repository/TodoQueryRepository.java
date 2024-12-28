@@ -1,4 +1,4 @@
-package com.ssafy.sandbox.crud.repository.v1;
+package com.ssafy.sandbox.crud.repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;

@@ -1,11 +1,7 @@
-package com.ssafy.sandbox.crud.repository.v1;
+package com.ssafy.sandbox.crud.repository;
 
-import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.ssafy.sandbox.crud.dto.TodoResponse;
 import com.ssafy.sandbox.crud.dto.TodosResponse;
 import com.ssafy.sandbox.crud.entity.Todo;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
-import static com.ssafy.sandbox.crud.entity.QTodo.todo;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
