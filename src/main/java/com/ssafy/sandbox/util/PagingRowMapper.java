@@ -1,6 +1,6 @@
 package com.ssafy.sandbox.util;
 
-import com.ssafy.sandbox.paging.dto.Paging;
+import com.ssafy.sandbox.paging.dto.v0.Paging;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
