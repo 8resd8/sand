@@ -28,6 +28,11 @@ public class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
                 .fetch();
     }
 
+    @Override
+    public long getLastId(Long cursorId, List<PageDto> result) {
+        return result.isEmpty() ? cursorId : result.get(result.size() - 1).getId();
+    }
+
     private BooleanExpression cursorCondition(Long cursorId) {
         return article.id.gt(cursorId);
     }
