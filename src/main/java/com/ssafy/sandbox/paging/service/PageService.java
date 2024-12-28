@@ -5,8 +5,7 @@ import com.ssafy.sandbox.paging.dto.OffsetResponse;
 import com.ssafy.sandbox.paging.dto.PageDto;
 import com.ssafy.sandbox.paging.dto.PageRequest;
 import com.ssafy.sandbox.paging.entity.Article;
-import com.ssafy.sandbox.paging.repository.PageQueryRepository;
-import com.ssafy.sandbox.paging.repository.PageRepository;
+import com.ssafy.sandbox.paging.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,21 +19,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PageService {
 
-    private final PageRepository pageRepository;
-    private final PageQueryRepository pageQueryRepository;
+    private final ArticleRepository articleRepository;
 
 
     public OffsetResponse getOffset(Pageable pageable) {
-        Page<PageDto> offsetPage = pageRepository.findAll(pageable)
-                .map(PageDto::new);
-
+        Page<PageDto> offsetPage = articleRepository.findAll(pageable).map(PageDto::new);
 
         return new OffsetResponse(offsetPage.getContent(), offsetPage.getTotalPages() - 1);
     }
 
 
     public CursorResponse getCursor(Long cursorId, int size) {
-        List<PageDto> cursorPage = pageQueryRepository.findByCursor(cursorId, size);
+        List<PageDto> cursorPage = articleRepository.findByCursor(cursorId, size);
+
         return new CursorResponse(cursorPage, cursorPage.size());
     }
 
@@ -43,6 +40,6 @@ public class PageService {
                 .map(dto -> new Article(dto.getId(), dto.getTitle(), dto.getCreatedAt()))
                 .toList();
 
-        pageRepository.saveAll(articles);
+        articleRepository.saveAll(articles);
     }
 }
