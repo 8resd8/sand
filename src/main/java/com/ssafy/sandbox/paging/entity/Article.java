@@ -26,6 +26,11 @@ public class Article {
     @Column(name = "createdAt", updatable = false)
     private LocalDateTime createdAt;
 
+    public Article(String title) {
+        this.title = title;
+    }
+
+    // 클라이언트에서 명시적으로 보내주는 값
     public Article(Long id, String title, LocalDateTime createdAt) {
         this.id = id;
         this.title = title;
