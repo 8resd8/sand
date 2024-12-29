@@ -22,7 +22,7 @@ public class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
                         article.title,
                         article.createdAt))
                 .from(article)
-                .where(cursorCondition(cursorId))
+                .where(article.id.gt(cursorId))
                 .orderBy(article.id.asc())
                 .limit(size)
                 .fetch();
@@ -31,9 +31,5 @@ public class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
     @Override
     public long getLastId(Long cursorId, List<PageDto> result) {
         return result.isEmpty() ? cursorId : result.get(result.size() - 1).getId();
-    }
-
-    private BooleanExpression cursorCondition(Long cursorId) {
-        return article.id.gt(cursorId);
     }
 }
