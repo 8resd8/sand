@@ -2,6 +2,7 @@ package com.ssafy.sandbox.email.service;
 
 
 import com.ssafy.sandbox.email.dto.RequestEmail;
+import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +34,7 @@ public class EmailSendService {
 
             javaMailSender.send(message);
             log.info("이메일 발송 성공: {}", message);
-        } catch (Exception e) {
+        } catch (MessagingException e) {
             log.error("이메일 발송 실패", e);
             throw new RuntimeException("이메일 발송에 실패했습니다.");
         }
