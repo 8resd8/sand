@@ -39,3 +39,4 @@ out/
 
 secret.properties
 secret-test.properties
+/src/main/generated/**
