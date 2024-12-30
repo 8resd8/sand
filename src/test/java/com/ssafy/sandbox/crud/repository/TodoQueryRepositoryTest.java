@@ -16,7 +16,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional
 class TodoQueryRepositoryTest {
 
-
     @Autowired
     TodoQueryRepository todoQueryRepository;
 
@@ -40,7 +39,8 @@ class TodoQueryRepositoryTest {
 
     @Test
     void updateToggle() {
-        Optional<Todo> findTodo = todoRepository.findById(1L);
+        Todo todo1 = todoRepository.save(new Todo("업데이트 테스트"));
+        Optional<Todo> findTodo = todoRepository.findById(todo1.getId());
         assertThat(findTodo).isPresent();
         Todo todo = findTodo.get();
 
@@ -49,6 +49,5 @@ class TodoQueryRepositoryTest {
         todo.updateToggle();
 
         assertThat(todo.isCompleted()).isTrue();
-
     }
 }
