@@ -23,8 +23,8 @@ public class PagingController {
     }
 
     @GetMapping("/paging/cursor")
-    public CursorResponse cursorPaging(@RequestParam(required = false, defaultValue = "0") Long cursorId,
-                                       @RequestParam(defaultValue = "10") int size) {
+    public CursorResponse cursorPaging(@RequestParam(name = "cursorId", required = false, defaultValue = "0") Long cursorId,
+                                       @RequestParam(name = "size", defaultValue = "10") int size) {
         return pageService.getCursor(cursorId, size);
     }
 
