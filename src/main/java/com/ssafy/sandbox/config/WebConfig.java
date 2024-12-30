@@ -12,9 +12,9 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("https://ssafysandbox.vercel.app") // 특정 출처만 허용
                 .allowedMethods("GET", "POST", "PATCH", "DELETE", "OPTION")
-                .allowedHeaders("Authorization", "Content-Type")
-                .allowCredentials(true) // credentials 설정을 사용
-                .maxAge(3600);
+                .allowedHeaders("Authorization", "Content-Type", "x-refresh")
+                .allowCredentials(true); // credentials 설정을 사용
+//                .maxAge(3600);
     }
 
 }
