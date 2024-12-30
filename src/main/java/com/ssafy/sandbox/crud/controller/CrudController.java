@@ -29,13 +29,13 @@ public class CrudController {
 
     @PatchMapping("/{todoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void UpdateTodo(@PathVariable Long todoId) {
+    public void UpdateTodo(@PathVariable(name = "todoId") Long todoId) {
         todoService.updateToggle(todoId);
     }
 
     @DeleteMapping("/{todoId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void DeleteTodo(@PathVariable Long todoId) {
+    public void DeleteTodo(@PathVariable(name = "todoId") Long todoId) {
         todoService.deleteTodo(todoId);
     }
 }
