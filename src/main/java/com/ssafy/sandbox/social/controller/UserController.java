@@ -23,7 +23,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/auth")
-    public ResponseEntity<?> signIn(@RequestBody LoginRequestDto dto) {
+    public ResponseEntity<?> signIn(@RequestBody LoginRequest dto) {
         if (dto.getCode() == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -31,8 +31,8 @@ public class UserController {
         log.debug("code: {}", dto.getCode());
         String accessToken = oauthService.getAccessToken(dto.getCode());
         log.debug("access token: {}", accessToken);
-        KakaoUserInfoResponseDto userInfo = oauthService.getUserInfo(accessToken);
-        LoginResponseDto result = userService.getToken(userInfo);
+        KakaoUserInfoResponse userInfo = oauthService.getUserInfo(accessToken);
+        LoginResponse result = userService.getToken(userInfo);
         return ResponseEntity.ok().body(result);
     }
 
@@ -44,7 +44,7 @@ public class UserController {
         }
         log.debug("token: {}", token);
         try {
-            VerifyTokenResponseDto response = userService.getNickname(token);
+            VerifyTokenResponse response = userService.getNickname(token);
             return ResponseEntity.ok().body(response);
         } catch (JwtException e) {
             if (e.getMessage().equals(JWTErrorCode.INVALID_TOKEN.getMessage())) {
@@ -64,7 +64,7 @@ public class UserController {
 
         log.debug("token: {}", token);
         try {
-            ReIssueTokenDto response = userService.reissueToken(token);
+            ReIssueToken response = userService.reissueToken(token);
             return ResponseEntity.ok().body(response);
         } catch (JwtException e) {
             if (e.getMessage().equals(JWTErrorCode.INVALID_TOKEN.getMessage())) {
