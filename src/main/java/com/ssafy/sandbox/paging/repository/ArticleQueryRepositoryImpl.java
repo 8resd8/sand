@@ -1,9 +1,8 @@
 package com.ssafy.sandbox.paging.repository;
 
-import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.sandbox.paging.dto.PageDto;
+import com.ssafy.sandbox.paging.dto.QPageDto;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -17,7 +16,7 @@ public class ArticleQueryRepositoryImpl implements ArticleQueryRepository {
 
     public List<PageDto> findByCursor(Long cursorId, int size) {
         return queryFactory
-                .select(Projections.constructor(PageDto.class,
+                .select(new QPageDto(
                         article.id,
                         article.title,
                         article.createdAt))

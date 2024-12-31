@@ -1,5 +1,6 @@
 package com.ssafy.sandbox.paging.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import com.ssafy.sandbox.paging.entity.Article;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ public class PageDto {
     private String title;
     private LocalDateTime createdAt;
 
+    @QueryProjection
     public PageDto(Long id, String title, LocalDateTime createdAt) {
         this.id = id;
         this.title = title;
