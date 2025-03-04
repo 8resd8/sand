@@ -42,4 +42,4 @@ secret.properties
 secret-test.properties
 /src/main/generated/**
 
-/src/main/resources/firebase/**
+/src/main/resources/firebase/firebase_service_key.json
